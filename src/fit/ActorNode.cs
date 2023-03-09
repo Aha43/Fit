@@ -1,8 +1,8 @@
-﻿namespace fit;
+﻿namespace Fit;
 
 public class ActorNode
 {
-    private readonly Fit _fit;
+    private readonly FitManager _fit;
 
     private readonly ActorNode? _parent;
 
@@ -12,7 +12,7 @@ public class ActorNode
 
     private readonly List<ActorNode> _nodes = new();
 
-    public ActorNode(Fit fit, IActor actor, ActorNode? parent)
+    public ActorNode(FitManager fit, IActor actor, ActorNode? parent)
     {
         _fit = fit;
         _actor = actor;

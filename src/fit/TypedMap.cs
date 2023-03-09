@@ -1,6 +1,6 @@
-﻿using fit.Exceptions;
+﻿using Fit.Exceptions;
 
-namespace fit;
+namespace Fit;
 
 public class TypedMap
 {

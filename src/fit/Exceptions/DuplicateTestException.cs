@@ -1,7 +1,6 @@
-﻿namespace fit.Exceptions
+﻿namespace Fit.Exceptions;
+
+public class DuplicateTestException : Exception
 {
-    public class DuplicateTestException : Exception
-    {
-        public DuplicateTestException(string name) : base(name) { }
-    }
+    public DuplicateTestException(string name) : base(name) { }
 }

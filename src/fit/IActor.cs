@@ -1,4 +1,4 @@
-﻿namespace fit;
+﻿namespace Fit;
 
 public interface IActor
 {

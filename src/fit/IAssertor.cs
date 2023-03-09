@@ -1,6 +1,6 @@
-﻿namespace fit
+﻿namespace Fit
 {
-    public interface IAsserter
+    public interface IAssertor
     {
         Task AssertAsync(TypedMap systemClaims);
     }

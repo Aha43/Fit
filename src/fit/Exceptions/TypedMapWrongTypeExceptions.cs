@@ -1,4 +1,4 @@
-﻿namespace fit.Exceptions;
+﻿namespace Fit.Exceptions;
 
 public class TypedMapWrongTypeExceptions : Exception
 {

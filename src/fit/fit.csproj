@@ -5,6 +5,8 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
 	<WarningsAsErrors>Nullable</WarningsAsErrors>
+	<AssemblyName>Fit</AssemblyName>
+	<RootNamespace>Fit</RootNamespace>
   </PropertyGroup>
 
 </Project>
