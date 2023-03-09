@@ -1,4 +1,6 @@
-﻿namespace fit;
+﻿using fit.Exceptions;
+
+namespace fit;
 
 public class TypedMap
 {
@@ -18,7 +20,7 @@ public class TypedMap
                 return;
             }
 
-            throw new Exception("not right type");
+            throw new TypedMapWrongTypeExceptions(name);
         }
 
         dict = new Dictionary<string, T?> { [name] = value };
@@ -39,7 +41,7 @@ public class TypedMap
                 return default;
             }
 
-            throw new Exception("not right type");
+            throw new TypedMapWrongTypeExceptions(name);
         }
 
         return default;
