@@ -2,6 +2,6 @@
 {
     public interface IAsserter
     {
-        void Assert(TypedMap systemClaims);
+        Task AssertAsync(TypedMap systemClaims);
     }
 }

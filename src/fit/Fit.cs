@@ -48,7 +48,7 @@ public class Fit
 
     public Fit RunTest(string name)
     {
-        throw new NotImplementedException();
+        if 
     }
 
 }
