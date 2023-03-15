@@ -1,4 +1,5 @@
 ﻿using Fit.Exceptions;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Fit;
 
@@ -10,11 +11,15 @@ public class FitManager
 
     private readonly List<AssertorBase> _assertors = new();
 
-    public readonly FitManagerOptions _options = new();
+    private readonly FitManagerOptions _options = new();
+
+    private readonly IServiceProvider _serviceProvider;
 
     public FitManager(Action<FitManagerOptions>? o = null)
     {
         o?.Invoke(_options);
+
+        _serviceProvider = _options.Services.AddServices().BuildServiceProvider();
     }
 
     public bool Proto => _options.Proto;
@@ -78,6 +83,7 @@ public class FitManager
         }
     }
 
+    
 
 
 }
