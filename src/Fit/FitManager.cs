@@ -8,7 +8,7 @@ public class FitManager
 
     private readonly Dictionary<string, ActorNode[]> _tests = new();
 
-    private readonly List<IAssertor> _assertors = new();
+    private readonly List<AssertorBase> _assertors = new();
 
     public readonly FitManagerOptions _options = new();
 
@@ -47,7 +47,7 @@ public class FitManager
         return this;
     }
 
-    public FitManager AddAssertor(IAssertor assertor)
+    public FitManager AddAssertor(AssertorBase assertor)
     {
         _assertors.Add(assertor);
         return this;
