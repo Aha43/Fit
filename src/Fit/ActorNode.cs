@@ -6,13 +6,13 @@ public class ActorNode
 
     private readonly ActorNode? _parent;
 
-    private readonly IActor _actor;
+    private readonly ActorBase _actor;
 
     private readonly TypedMap _parameters = new();
 
     private readonly List<ActorNode> _nodes = new();
 
-    public ActorNode(FitManager fit, IActor actor, ActorNode? parent)
+    public ActorNode(FitManager fit, ActorBase actor, ActorNode? parent)
     {
         _fit = fit;
         _actor = actor;

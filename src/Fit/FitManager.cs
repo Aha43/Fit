@@ -4,13 +4,20 @@ namespace Fit;
 
 public class FitManager
 {
-    private readonly Dictionary<string, IActor> _actors = new();
+    private readonly Dictionary<string, ActorBase> _actors = new();
 
     private readonly Dictionary<string, ActorNode[]> _tests = new();
 
     private readonly List<IAssertor> _assertors = new();
 
-    public bool Proto { get; set; }
+    public readonly FitManagerOptions _options = new();
+
+    public FitManager(Action<FitManagerOptions>? o = null)
+    {
+        o?.Invoke(_options);
+    }
+
+    public bool Proto => _options.Proto;
 
     internal void AddTest(string name, ActorNode end)
     {
@@ -22,13 +29,13 @@ public class FitManager
         _tests[name] = end.Path();
     }
 
-    internal IActor? GetActor(string name)
+    internal ActorBase? GetActor(string name)
     {
-        if (_actors.TryGetValue(name, out IActor? actor)) return actor;
+        if (_actors.TryGetValue(name, out ActorBase? actor)) return actor;
         return null;
     }
 
-    public FitManager AddActor(IActor actor)
+    public FitManager AddActor(ActorBase actor)
     {
         var name = actor.GetType().Name;
         if (_actors.ContainsKey(name) ) 
@@ -70,5 +77,7 @@ public class FitManager
             await assertor.AssertAsync(systemClaims).ConfigureAwait(false);
         }
     }
+
+
 
 }
