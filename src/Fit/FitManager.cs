@@ -15,11 +15,33 @@ public class FitManager
 
     private readonly IServiceProvider _serviceProvider;
 
+    private readonly Dictionary<string, Type> _actorTypes = new();
+    private readonly List<Type> _assertorTypes = new();
+
     public FitManager(Action<FitManagerOptions>? o = null)
     {
         o?.Invoke(_options);
 
-        _serviceProvider = _options.Services.AddServices().BuildServiceProvider();
+        _serviceProvider = AddServices(_options.Services).BuildServiceProvider();
+    }
+
+    public IServiceCollection AddServices(IServiceCollection services)
+    {
+        var actorTypes = Util.FindNonAbstractTypes<ActorBase>();
+        foreach (var t in actorTypes)
+        {
+            services.AddSingleton(t);
+            _actorTypes.Add(t.Name, t);
+        }
+
+        var assertorTypes = Util.FindNonAbstractTypes<AssertorBase>();
+        foreach (var t in assertorTypes)
+        {
+            services.AddSingleton(t);
+            _assertorTypes.Add(t);
+        }
+
+        return services;
     }
 
     public bool Proto => _options.Proto;
@@ -34,28 +56,19 @@ public class FitManager
         _tests[name] = end.Path();
     }
 
-    internal ActorBase? GetActor(string name)
+    public ActorBase? GetActor(string name) 
     {
-        if (_actors.TryGetValue(name, out ActorBase? actor)) return actor;
-        return null;
-    }
-
-    public FitManager AddActor(ActorBase actor)
-    {
-        var name = actor.GetType().Name;
-        if (_actors.ContainsKey(name) ) 
+        if (_actors.TryGetValue(name, out ActorBase? actorBase)) return actorBase;
+        if (_actorTypes.TryGetValue(name, out Type? type))
         {
-            throw new DuplicateActorException(name);
+            if (_serviceProvider.GetService(type) is ActorBase actor)
+            {
+                _actors.Add(name, actor);
+                return actor;
+            }
         }
 
-        _actors[name] = actor;
-        return this;
-    }
-
-    public FitManager AddAssertor(AssertorBase assertor)
-    {
-        _assertors.Add(assertor);
-        return this;
+        return null;
     }
 
     public async Task RunTest(string name)
@@ -77,13 +90,22 @@ public class FitManager
 
     private async Task Assert(TypedMap systemClaims)
     {
+        EnsureAssertorsInstated();
         foreach (var assertor in _assertors) 
         {
             await assertor.AssertAsync(systemClaims).ConfigureAwait(false);
         }
     }
 
-    
+    private void EnsureAssertorsInstated()
+    {
+        if (_assertors.Any()) return;
+        if (!_assertorTypes.Any()) return;
 
+        foreach (var t in _assertorTypes)
+        {
+            if (_serviceProvider.GetService(t) is AssertorBase assertor) _assertors.Add(assertor);
+        }
+    }
 
 }
