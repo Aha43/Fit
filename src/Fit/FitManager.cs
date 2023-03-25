@@ -25,7 +25,7 @@ public class FitManager
         _serviceProvider = AddServices(_options.Services).BuildServiceProvider();
     }
 
-    public IServiceCollection AddServices(IServiceCollection services)
+    private IServiceCollection AddServices(IServiceCollection services)
     {
         var actorTypes = Util.FindNonAbstractTypes<ActorBase>();
         foreach (var t in actorTypes)
@@ -56,7 +56,7 @@ public class FitManager
         _tests[name] = end.Path();
     }
 
-    public ActorBase? GetActor(string name) 
+    internal ActorBase? GetActor(string name) 
     {
         if (_actors.TryGetValue(name, out ActorBase? actorBase)) return actorBase;
         if (_actorTypes.TryGetValue(name, out Type? type))
