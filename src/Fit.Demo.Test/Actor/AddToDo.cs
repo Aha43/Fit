@@ -8,9 +8,13 @@ public class AddToDo : IActor
 
     public AddToDo(ToDoViewController toDoViewController) => _toDoViewController = toDoViewController;
 
-    public Task ActAsync(TypedMap stateClaims, TypedMap parameters)
+    public async Task ActAsync(TypedMap stateClaims, TypedMap parameters)
     {
-        throw new NotImplementedException();
+        var name = parameters.Get<string>("Name");
+
+        await _toDoViewController.LoadAsync();
+        _toDoViewController.NewToDo.Name = name;
+        await _toDoViewController.CreateToDo();
     }
 
 }

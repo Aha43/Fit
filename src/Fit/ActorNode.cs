@@ -1,4 +1,6 @@
-﻿namespace Fit;
+﻿using Fit.Exceptions;
+
+namespace Fit;
 
 public class ActorNode
 {
@@ -6,13 +8,13 @@ public class ActorNode
 
     private readonly ActorNode? _parent;
 
-    private readonly IActor? _actor;
+    private readonly IActor _actor;
 
     private readonly TypedMap _parameters = new();
 
     private readonly List<ActorNode> _nodes = new();
 
-    internal ActorNode(Fit fit, IActor? actor, ActorNode? parent = null)
+    internal ActorNode(Fit fit, IActor actor, ActorNode? parent = null)
     {
         _fit = fit;
         _actor = actor;

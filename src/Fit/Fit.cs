@@ -22,7 +22,6 @@ public class Fit
     public Fit(Action<FitOptions>? o = null)
     {
         o?.Invoke(_options);
-
         AddServices(_options.Services);
         _serviceProvider = _options.Services.BuildServiceProvider();
     }
@@ -44,8 +43,6 @@ public class Fit
         }
     }
 
-    public bool Proto => _options.Proto;
-
     internal void AddTest(string name, ActorNode end)
     {
         if (_tests.ContainsKey(name)) 
@@ -56,10 +53,15 @@ public class Fit
         _tests[name] = end.Path();
     }
 
-    internal IActor? GetActor(string name) 
+    internal IActor GetActor(string name) 
     {
         var retVal = GetActorByName(name);
         retVal ??= GetActorByName($"{name}Actor");
+        if (retVal == null)
+        {
+            throw new ActorNotFoundException($"{name} or {name}Actor");
+        }
+
         return retVal;
     }
 
