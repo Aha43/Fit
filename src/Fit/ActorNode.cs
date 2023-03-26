@@ -45,8 +45,9 @@ public class ActorNode
     public ActorNode Do(string name)
     {
         var actor = _fit.GetActor(name);
-        _nodes.Add(new ActorNode(_fit, actor, this));
-        return this;
+        var child = new ActorNode(_fit, actor, this);
+        _nodes.Add(child);
+        return child;
     }
 
     public ActorNode With<T>(string name, T value)

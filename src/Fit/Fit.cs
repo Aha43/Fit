@@ -10,7 +10,7 @@ public class Fit
     private readonly List<ActorNode> _roots = new();
     private readonly Dictionary<string, ActorNode[]> _tests = new();
 
-    private readonly List<AssertorBase> _assertors = new();
+    private readonly List<IAssertor> _assertors = new();
 
     private readonly FitOptions _options = new();
 
@@ -35,7 +35,7 @@ public class Fit
             _actorTypes.Add(t.Name, t);
         }
 
-        var assertorTypes = Util.FindNonAbstractTypes<AssertorBase>();
+        var assertorTypes = Util.FindNonAbstractTypes<IAssertor>();
         foreach (var t in assertorTypes)
         {
             services.AddSingleton(t);
@@ -123,7 +123,7 @@ public class Fit
 
         foreach (var t in _assertorTypes)
         {
-            if (_serviceProvider.GetService(t) is AssertorBase assertor) _assertors.Add(assertor);
+            if (_serviceProvider.GetService(t) is IAssertor assertor) _assertors.Add(assertor);
         }
     }
 

@@ -29,7 +29,7 @@ public class ToDoViewController
         ToDos.AddRange(toDos);
     }
 
-    public async Task CreateToDo()
+    public async Task<ToDo> CreateToDo()
     {
         var res = ValidationRules.Validate(NewToDo);
         if (res.IsValid)
@@ -37,7 +37,7 @@ public class ToDoViewController
             var created = await _api.CreateAsync(NewToDo, default);
             ToDos.Add(created);
             NewToDo = new ToDo();
-            return;
+            return created;
         }
 
         throw new ArgumentException(res.ToString());

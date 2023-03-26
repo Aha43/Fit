@@ -1,4 +1,5 @@
 ﻿using Fit.Demo.Business;
+using Fit.Demo.Test.Extensions;
 
 namespace Fit.Demo.Test.Actor;
 
@@ -14,7 +15,9 @@ public class AddToDo : IActor
 
         await _toDoViewController.LoadAsync();
         _toDoViewController.NewToDo.Name = name;
-        await _toDoViewController.CreateToDo();
+        var created = await _toDoViewController.CreateToDo();
+
+        stateClaims.ExpectedToDoList().Add(created with { });
     }
 
 }

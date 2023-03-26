@@ -15,7 +15,8 @@ public class UnitTest
                 .AddFitDemoBusiness();
         });
 
-        _fit.Do<AddToDo>().With("Name", "TestToDoItem")
+        _fit.Do<AddToDo>().With("Name", "TestToDoItem1")
+            .Do<AddToDo>().With("Name", "TestToDoItem2")
             .AsCase("FirstCase");
     }
 
