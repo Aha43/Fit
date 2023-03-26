@@ -4,15 +4,24 @@ namespace Fit.Demo.Test.Extensions;
 
 public static class ClaimsExtensions
 {
-    public static List<ToDo> ExpectedToDoList(this TypedMap claims)
+    public static List<T> ExpectedItemList<T>(this StateClaims claims) where T : class
     {
-        var retVal = claims.Get<List<ToDo>>(nameof(ExpectedToDoList));
-        if (retVal == null) 
+        var name = $"{typeof(T).Name}ExpectedList";
+
+        if (claims.TryGetValue(name, out object? value))
         {
-            retVal = new();
-            claims.Set(nameof(ExpectedToDoList), retVal);
+            var retVal = value as List<T>;
+            if (retVal == null)
+            {
+                throw new ArgumentException("type error");
+            }
+
+            return retVal;
         }
-        return retVal;
+
+        var list = new List<T>();
+        claims[name] = list;
+        return list;
     }
 
 }

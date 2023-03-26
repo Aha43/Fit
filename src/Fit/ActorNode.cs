@@ -10,7 +10,7 @@ public class ActorNode
 
     private readonly IActor _actor;
 
-    private readonly TypedMap _parameters = new();
+    private readonly ActorParameters _parameters = new();
 
     private readonly List<ActorNode> _nodes = new();
 
@@ -52,7 +52,13 @@ public class ActorNode
 
     public ActorNode With<T>(string name, T value)
     {
-        _parameters.Set(name, value);
+        if (value == null)
+        {
+            _parameters.Remove(name);
+            return this;
+        }
+
+        _parameters.Add(name, value);
         return this;
     }
 
@@ -62,7 +68,7 @@ public class ActorNode
         return this;
     }
 
-    public async Task ActAsync(TypedMap stateClaims)
+    public async Task ActAsync(StateClaims stateClaims)
     {
         if (_actor == null)
         {

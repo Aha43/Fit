@@ -4,13 +4,13 @@ using Fit.Demo.Validation;
 
 namespace Fit.Demo.Business;
 
-public class ToDoViewController
+public class ToDosViewController
 {
     private readonly IToDoApi _api;
 
     public ToDoValidator ValidationRules { get; private set; }
 
-    public ToDoViewController(
+    public ToDosViewController(
         IToDoApi api,
         ToDoValidator validationRules)
     {

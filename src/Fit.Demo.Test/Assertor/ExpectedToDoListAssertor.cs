@@ -1,19 +1,20 @@
 ﻿using Fit.Demo.Business;
+using Fit.Demo.Domain;
 using Fit.Demo.Test.Extensions;
 
 namespace Fit.Demo.Test.Assertor;
 
 public class ExpectedToDoListAssertor : IAssertor
 {
-    private readonly ToDoViewController _toDoViewController;
+    private readonly ToDosViewController _toDoViewController;
 
-    public ExpectedToDoListAssertor(ToDoViewController toDoViewController) => _toDoViewController = toDoViewController;
+    public ExpectedToDoListAssertor(ToDosViewController toDoViewController) => _toDoViewController = toDoViewController;
 
-    public async Task AssertAsync(TypedMap systemClaims)
+    public async Task AssertAsync(StateClaims systemClaims)
     {
         await _toDoViewController.LoadAsync();
 
-        var expected = systemClaims.ExpectedToDoList();
+        var expected = systemClaims.ExpectedItemList<ToDo>();
 
         Assert.Equal(expected.Count, _toDoViewController.ToDos.Count);
         for (var i = 0; i < expected.Count; i++ ) 

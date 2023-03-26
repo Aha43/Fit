@@ -1,15 +1,16 @@
 ﻿using Fit.Demo.Business;
+using Fit.Demo.Domain;
 using Fit.Demo.Test.Extensions;
 
 namespace Fit.Demo.Test.Actor;
 
 public class AddToDo : IActor
 {
-    private readonly ToDoViewController _toDoViewController;
+    private readonly ToDosViewController _toDoViewController;
 
-    public AddToDo(ToDoViewController toDoViewController) => _toDoViewController = toDoViewController;
+    public AddToDo(ToDosViewController toDoViewController) => _toDoViewController = toDoViewController;
 
-    public async Task ActAsync(TypedMap stateClaims, TypedMap parameters)
+    public async Task ActAsync(StateClaims stateClaims, ActorParameters parameters)
     {
         var name = parameters.Get<string>("Name");
 
@@ -17,7 +18,7 @@ public class AddToDo : IActor
         _toDoViewController.NewToDo.Name = name;
         var created = await _toDoViewController.CreateToDo();
 
-        stateClaims.ExpectedToDoList().Add(created with { });
+        stateClaims.ExpectedItemList<ToDo>().Add(created with { });
     }
 
 }

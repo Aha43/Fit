@@ -2,5 +2,5 @@
 
 public interface IActor
 {
-    Task ActAsync(TypedMap stateClaims, TypedMap parameters);
+    Task ActAsync(StateClaims stateClaims, ActorParameters parameters);
 }

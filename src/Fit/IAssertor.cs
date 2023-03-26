@@ -2,5 +2,5 @@
 
 public interface IAssertor
 {
-    Task AssertAsync(TypedMap systemClaims);
+    Task AssertAsync(StateClaims stateClaims);
 }

@@ -97,22 +97,22 @@ public class Fit
             throw new TestNotFoundException(name);
         }
 
-        var systemClaim = new TypedMap();
+        var stateClaims = new StateClaims();
 
         var test = _tests[name];
         foreach (var t in test) 
         {
-            await t.ActAsync(systemClaim).ConfigureAwait(false);
-            await Assert(systemClaim).ConfigureAwait(false);
+            await t.ActAsync(stateClaims).ConfigureAwait(false);
+            await Assert(stateClaims).ConfigureAwait(false);
         }
     }
 
-    private async Task Assert(TypedMap systemClaims)
+    private async Task Assert(StateClaims stateClaims)
     {
         EnsureAssertorsInstated();
         foreach (var assertor in _assertors) 
         {
-            await assertor.AssertAsync(systemClaims).ConfigureAwait(false);
+            await assertor.AssertAsync(stateClaims).ConfigureAwait(false);
         }
     }
 

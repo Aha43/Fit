@@ -17,6 +17,8 @@ public class UnitTest
 
         _fit.Do<AddToDo>().With("Name", "TestToDoItem1")
             .Do<AddToDo>().With("Name", "TestToDoItem2")
+            .Do<AddTag>().With("Name", "Tag1")
+            .Do<AddTag>().With("Name", "Tag2")
             .AsCase("FirstCase");
     }
 
