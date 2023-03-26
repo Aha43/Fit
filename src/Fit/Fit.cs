@@ -3,7 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Fit;
 
-public class Fit
+public class Fit : IDo
 {
     private readonly Dictionary<string, IActor> _actors = new();
 

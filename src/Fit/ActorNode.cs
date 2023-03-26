@@ -1,8 +1,6 @@
-﻿using Fit.Exceptions;
+﻿namespace Fit;
 
-namespace Fit;
-
-public class ActorNode
+public class ActorNode : IDo
 {
     private readonly Fit _fit;
 
