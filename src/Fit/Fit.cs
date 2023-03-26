@@ -3,7 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Fit;
 
-public class FitManager
+public class Fit
 {
     private readonly Dictionary<string, IActor> _actors = new();
 
@@ -12,14 +12,14 @@ public class FitManager
 
     private readonly List<AssertorBase> _assertors = new();
 
-    private readonly FitManagerOptions _options = new();
+    private readonly FitOptions _options = new();
 
     private readonly IServiceProvider _serviceProvider;
 
     private readonly Dictionary<string, Type> _actorTypes = new();
     private readonly List<Type> _assertorTypes = new();
 
-    public FitManager(Action<FitManagerOptions>? o = null)
+    public Fit(Action<FitOptions>? o = null)
     {
         o?.Invoke(_options);
 

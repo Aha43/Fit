@@ -2,7 +2,7 @@
 
 public class ActorNode
 {
-    private readonly FitManager _fit;
+    private readonly Fit _fit;
 
     private readonly ActorNode? _parent;
 
@@ -12,7 +12,7 @@ public class ActorNode
 
     private readonly List<ActorNode> _nodes = new();
 
-    internal ActorNode(FitManager fit, IActor? actor, ActorNode? parent = null)
+    internal ActorNode(Fit fit, IActor? actor, ActorNode? parent = null)
     {
         _fit = fit;
         _actor = actor;

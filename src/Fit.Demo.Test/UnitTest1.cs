@@ -5,11 +5,11 @@ namespace Fit.Demo.Test;
 
 public class UnitTest
 {
-    private readonly FitManager _fit;
+    private readonly Fit _fit;
 
     public UnitTest() 
     {
-        _fit = new FitManager(o => { 
+        _fit = new Fit(o => { 
             o.Services.AddFitDemoInMemoryInfrastructure()
                 .AddFitDemoBusiness();
         });
