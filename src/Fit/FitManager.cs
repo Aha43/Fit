@@ -5,8 +5,9 @@ namespace Fit;
 
 public class FitManager
 {
-    private readonly Dictionary<string, ActorBase> _actors = new();
+    private readonly Dictionary<string, IActor> _actors = new();
 
+    private readonly List<ActorNode> _roots = new();
     private readonly Dictionary<string, ActorNode[]> _tests = new();
 
     private readonly List<AssertorBase> _assertors = new();
@@ -22,12 +23,13 @@ public class FitManager
     {
         o?.Invoke(_options);
 
-        _serviceProvider = AddServices(_options.Services).BuildServiceProvider();
+        AddServices(_options.Services);
+        _serviceProvider = _options.Services.BuildServiceProvider();
     }
 
-    private IServiceCollection AddServices(IServiceCollection services)
+    private void AddServices(IServiceCollection services)
     {
-        var actorTypes = Util.FindNonAbstractTypes<ActorBase>();
+        var actorTypes = Util.FindNonAbstractTypes<IActor>();
         foreach (var t in actorTypes)
         {
             services.AddSingleton(t);
@@ -40,8 +42,6 @@ public class FitManager
             services.AddSingleton(t);
             _assertorTypes.Add(t);
         }
-
-        return services;
     }
 
     public bool Proto => _options.Proto;
@@ -56,12 +56,19 @@ public class FitManager
         _tests[name] = end.Path();
     }
 
-    internal ActorBase? GetActor(string name) 
+    internal IActor? GetActor(string name) 
     {
-        if (_actors.TryGetValue(name, out ActorBase? actorBase)) return actorBase;
+        var retVal = GetActorByName(name);
+        retVal ??= GetActorByName($"{name}Actor");
+        return retVal;
+    }
+
+    private IActor? GetActorByName(string name) 
+    {
+        if (_actors.TryGetValue(name, out IActor? actorCached)) return actorCached;
         if (_actorTypes.TryGetValue(name, out Type? type))
         {
-            if (_serviceProvider.GetService(type) is ActorBase actor)
+            if (_serviceProvider.GetService(type) is IActor actor)
             {
                 _actors.Add(name, actor);
                 return actor;
@@ -71,9 +78,17 @@ public class FitManager
         return null;
     }
 
+    public ActorNode Do(string name)
+    {
+        var actor = GetActor(name);
+        var root = new ActorNode(this, actor);
+        _roots.Add(root);
+        return root;
+    }
+
     public async Task RunTest(string name)
     {
-        if (_tests.ContainsKey(name)) 
+        if (!_tests.ContainsKey(name)) 
         {
             throw new TestNotFoundException(name);
         }
