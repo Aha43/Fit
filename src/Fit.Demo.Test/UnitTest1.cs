@@ -1,5 +1,6 @@
 using Fit.Demo.Business;
 using Fit.Demo.Infrastructure.InMemory;
+using Fit.Demo.Test.Actor;
 
 namespace Fit.Demo.Test;
 
@@ -14,7 +15,7 @@ public class UnitTest
                 .AddFitDemoBusiness();
         });
 
-        _fit.Do("AddToDo").AsCase("FirstCase");
+        _fit.Do<AddToDo>().AsCase("FirstCase");
     }
 
 

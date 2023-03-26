@@ -2,11 +2,11 @@
 
 namespace Fit.Demo.Test.Actor;
 
-public class AddToDoActor : IActor
+public class AddToDo : IActor
 {
     private readonly ToDoViewController _toDoViewController;
 
-    public AddToDoActor(ToDoViewController toDoViewController) => _toDoViewController = toDoViewController;
+    public AddToDo(ToDoViewController toDoViewController) => _toDoViewController = toDoViewController;
 
     public Task ActAsync(TypedMap stateClaims, TypedMap parameters)
     {

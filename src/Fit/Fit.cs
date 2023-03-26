@@ -78,6 +78,8 @@ public class Fit
         return null;
     }
 
+    public ActorNode Do<T>() where T : class => Do(typeof(T).Name);
+
     public ActorNode Do(string name)
     {
         var actor = GetActor(name);

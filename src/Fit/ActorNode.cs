@@ -38,6 +38,8 @@ public class ActorNode
 
     public bool Leaf => _nodes.Count == 0;
 
+    public ActorNode Do<T>() where T : class => Do(typeof(T).Name);
+
     public ActorNode Do(string name)
     {
         var actor = _fit.GetActor(name);
