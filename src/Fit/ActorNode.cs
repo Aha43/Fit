@@ -1,4 +1,6 @@
-﻿namespace Fit;
+﻿using System.Numerics;
+
+namespace Fit;
 
 public class ActorNode : IDo
 {
@@ -6,16 +8,16 @@ public class ActorNode : IDo
 
     private readonly ActorNode? _parent;
 
-    private readonly IActor _actor;
+    private readonly string _actorName;
 
     private readonly ActorParameters _parameters = new();
 
     private readonly List<ActorNode> _nodes = new();
 
-    internal ActorNode(Fit fit, IActor actor, ActorNode? parent = null)
+    internal ActorNode(Fit fit, string actorName, ActorNode? parent = null)
     {
         _fit = fit;
-        _actor = actor;
+        _actorName = actorName;
         _parent = parent;
     }
 
@@ -42,8 +44,7 @@ public class ActorNode : IDo
 
     public ActorNode Do(string name)
     {
-        var actor = _fit.GetActor(name);
-        var child = new ActorNode(_fit, actor, this);
+        var child = new ActorNode(_fit, name, this);
         _nodes.Add(child);
         return child;
     }
@@ -68,13 +69,10 @@ public class ActorNode : IDo
 
     public async Task ActAsync(StateClaims stateClaims)
     {
-        if (_actor == null)
+        var actor = _fit.GetActor(_actorName);
+        if (actor != null)
         {
-            // ToDo
-        }
-        else
-        {
-            await _actor.ActAsync(stateClaims, _parameters).ConfigureAwait(false);
+            await actor.ActAsync(stateClaims, _parameters).ConfigureAwait(false);
         }
     }
         
