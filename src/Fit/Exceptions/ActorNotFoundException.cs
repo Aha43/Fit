@@ -2,5 +2,5 @@
 
 public class ActorNotFoundException : Exception
 {
-    public ActorNotFoundException(string name) : base(name) { }
+    internal ActorNotFoundException(string name) : base(name) { }
 }

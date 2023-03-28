@@ -2,5 +2,5 @@
 
 public class DuplicateActorException : Exception
 {
-    public DuplicateActorException(string name) : base(name) { }
+    internal DuplicateActorException(string name) : base(name) { }
 }

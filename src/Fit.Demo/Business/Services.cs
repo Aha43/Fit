@@ -9,6 +9,7 @@ public static class Services
     {
         return services.AddFitDemoValidation()
             .AddSingleton<ToDosViewController>()
+            .AddSingleton<ToDoViewController>()
             .AddSingleton<TagsViewController>();
     }
 }

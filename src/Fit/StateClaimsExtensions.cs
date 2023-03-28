@@ -1,6 +1,8 @@
-﻿namespace Fit;
+﻿using Fit.Exceptions;
 
-public static class ClaimsExtensions
+namespace Fit;
+
+public static class StateClaimsExtensions
 {
     public static List<T> ExpectedItemList<T>(this StateClaims claims) where T : class
     {
@@ -8,10 +10,9 @@ public static class ClaimsExtensions
 
         if (claims.TryGetValue(name, out object? value))
         {
-            var retVal = value as List<T>;
-            if (retVal == null)
+            if (value is not List<T> retVal)
             {
-                throw new ArgumentException("type error");
+                throw new StateClaimWrongTypeExceptions(name);
             }
 
             return retVal;

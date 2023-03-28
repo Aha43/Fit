@@ -2,5 +2,5 @@
 
 public class DuplicateTestException : Exception
 {
-    public DuplicateTestException(string name) : base(name) { }
+    internal DuplicateTestException(string name) : base(name) { }
 }

@@ -1,4 +1,6 @@
-﻿using System.Numerics;
+﻿using Fit.Exceptions;
+using System.Diagnostics.Metrics;
+using System.Numerics;
 
 namespace Fit;
 
@@ -12,7 +14,7 @@ public class ActorNode : IDo
 
     private readonly ActorParameters _parameters = new();
 
-    private readonly List<ActorNode> _nodes = new();
+    private ActorNode? _next = null;
 
     internal ActorNode(Fit fit, string actorName, ActorNode? parent = null)
     {
@@ -38,15 +40,19 @@ public class ActorNode : IDo
 
     public ActorNode? Parent => _parent;
 
-    public bool Leaf => _nodes.Count == 0;
+    public bool Last => _next == null;
 
     public ActorNode Do<T>() where T : class => Do(typeof(T).Name);
 
     public ActorNode Do(string name)
     {
-        var child = new ActorNode(_fit, name, this);
-        _nodes.Add(child);
-        return child;
+        if (_next != null)
+        {
+            throw new NextActAllreadyDefinedException();
+        }
+
+        _next = new ActorNode(_fit, name, this);
+        return _next;
     }
 
     public ActorNode With<T>(string name, T value)
