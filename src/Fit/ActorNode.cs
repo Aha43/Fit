@@ -50,7 +50,6 @@ public class ActorNode : IDo
         {
             throw new NextActAllreadyDefinedException();
         }
-
         _next = new ActorNode(_fit, name, this);
         return _next;
     }

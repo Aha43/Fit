@@ -6,8 +6,6 @@ public class Fit : IDo
 {
     private readonly FitSystem _system;
 
-    private readonly Dictionary<string, IActor> _actors = new();
-
     private readonly List<ActorNode> _roots = new();
     private readonly Dictionary<string, ActorNode[]> _tests = new();
 
