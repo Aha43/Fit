@@ -61,19 +61,29 @@ public class Fit : IDo
 
         _system.BuildSystem();
 
+        var tasks = new List<Task>();
+        foreach (var setUp in _system.SetUps) tasks.Add(setUp.SetUpAsync(stateClaims));
+        if (tasks.Count > 0) await Task.WhenAll(tasks).ConfigureAwait(false);
+
         foreach (var actor in test) 
         {
             await actor.ActAsync(stateClaims).ConfigureAwait(false);
             await Assert(stateClaims).ConfigureAwait(false);
         }
+
+        tasks.Clear();
+        foreach (var tearDown in _system.TearDowns) tasks.Add(tearDown.TearDownAsync(stateClaims));
+        if (tasks.Count > 0) await Task.WhenAll(tasks).ConfigureAwait(false);
     }
 
     private async Task Assert(StateClaims stateClaims)
     {
+        var tasks = new List<Task>();
         foreach (var assertor in _system.Assertors) 
         {
-            await assertor.AssertAsync(stateClaims).ConfigureAwait(false);
+            tasks.Add(assertor.AssertAsync(stateClaims));
         }
+        if (tasks.Count > 0) await Task.WhenAll(tasks).ConfigureAwait(false);
     }
 
 }

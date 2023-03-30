@@ -2,5 +2,5 @@
 
 public interface ISetUp
 {
-    Task SetUpAsync();
+    Task SetUpAsync(StateClaims stateClaims);
 }
