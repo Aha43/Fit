@@ -6,73 +6,37 @@ internal class FitSystem
 {
     private readonly IServiceCollection _service;
 
-    private readonly Dictionary<string, IActor> _actors = new();
+    private readonly ActorManager _actorManager = new();
+
+    private readonly InstanceManager<IAssertor> _assertorManager = new();
+    internal IEnumerable<IAssertor> Assertors => _assertorManager.Instances;
+
+    private readonly InstanceManager<ISetUp> _setUpManager = new();
+    internal IEnumerable<ISetUp> SetUps => _setUpManager.Instances;
+
+    private readonly InstanceManager<ITearDown> _tearDownManager = new();
+    internal IEnumerable<ITearDown> TearDowns => _tearDownManager.Instances;
 
     internal FitSystem(IServiceCollection service) => _service = service;
 
-    private IServiceProvider? _serviceProvider;
-
-    private readonly List<IAssertor> _assertors = new();
-
-    internal IEnumerable<IAssertor> Assertors => _assertors.AsReadOnly();
-
     internal void BuildSystem()
     {
-        _serviceProvider = AddServices(_service).BuildServiceProvider();
+        var serviceProvider = AddServices(_service).BuildServiceProvider();
 
-        _actors.Clear();
-        foreach (var at in _actorTypes)
-        {
-            if (_serviceProvider.GetService(at.Value) is IActor actor) _actors.Add(at.Key, actor);
-        }
-
-        _assertors.Clear();
-        foreach (var t in _assertorTypes)
-        {
-          if (_serviceProvider.GetService(t) is IAssertor assertor) _assertors.Add(assertor);
-        }
+        _actorManager.Instantiate(serviceProvider);
+        _assertorManager.Instantiate(serviceProvider);
+        _setUpManager.Instantiate(serviceProvider);
+        _tearDownManager.Instantiate(serviceProvider);
     }
 
-    internal IActor? GetActorByName(string name)
-    {
-        if (_serviceProvider == null)
-        {
-            throw new Exception();
-        }
-
-        if (_actors.TryGetValue(name, out IActor? actorCached)) return actorCached;
-        if (_actorTypes.TryGetValue(name, out Type? type))
-        {
-            if (_serviceProvider.GetService(type) is IActor actor)
-            {
-                _actors.Add(name, actor);
-                return actor;
-            }
-        }
-
-        return null;
-    }
-
-    private readonly Dictionary<string, Type> _actorTypes = new();
-    private readonly List<Type> _assertorTypes = new();
-
+    internal IActor? GetActorByName(string name) => _actorManager.GetActor(name);
+    
     private IServiceCollection AddServices(IServiceCollection services)
     {
-        _actorTypes.Clear();
-        var actorTypes = FindNonAbstractTypes<IActor>();
-        foreach (var t in actorTypes)
-        {
-            services.AddSingleton(t);
-            _actorTypes.Add(t.Name, t);
-        }
-
-        _assertorTypes.Clear();
-        var assertorTypes = FindNonAbstractTypes<IAssertor>();
-        foreach (var t in assertorTypes)
-        {
-            services.AddSingleton(t);
-            _assertorTypes.Add(t);
-        }
+        _actorManager.AddServices(services);
+        _assertorManager.AddServices(services);
+        _setUpManager.AddServices(services);
+        _tearDownManager.AddServices(services);
 
         return services;
     }
@@ -86,6 +50,67 @@ internal class FitSystem
                 !type.IsInterface &&
                 tType.IsAssignableFrom(type));
         return types;
+    }
+
+}
+
+internal class InstanceManager<T> where T : class
+{
+    private readonly List<Type> _types = new();
+    private readonly List<T> _instances = new();
+    internal IEnumerable<T> Instances => _instances.AsReadOnly();
+
+    internal void AddServices(IServiceCollection services)
+    {
+        _types.Clear();
+        var types = Util.FindNonAbstractTypes<T>();
+        foreach (var t in types)
+        {
+            _types.Add(t);
+            services.AddSingleton(t);
+        }
+    }
+
+    internal void Instantiate(IServiceProvider serviceProvider)
+    {
+        _instances.Clear();
+        foreach (var t in _types)
+        {
+            if (serviceProvider.GetService(t) is T instance) _instances.Add(instance);
+        }
+    }
+
+}
+
+internal class ActorManager
+{
+    private readonly Dictionary<string, Type> _actorTypes = new();
+    private readonly Dictionary<string, IActor> _actors = new();
+
+    internal IActor? GetActor(string name)
+    {
+        if (_actors.TryGetValue(name, out IActor? actor)) return actor;
+        return null;
+    }
+
+    internal void AddServices(IServiceCollection services)
+    {
+        _actorTypes.Clear();
+        var actorTypes = Util.FindNonAbstractTypes<IActor>();
+        foreach (var t in actorTypes)
+        {
+            services.AddSingleton(t);
+            _actorTypes.Add(t.Name, t);
+        }
+    }
+
+    internal void Instantiate(IServiceProvider serviceProvider)
+    {
+        _actors.Clear();
+        foreach (var at in _actorTypes)
+        {
+            if (serviceProvider.GetService(at.Value) is IActor actor) _actors.Add(at.Key, actor);
+        }
     }
 
 }
