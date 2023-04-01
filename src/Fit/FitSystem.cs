@@ -2,7 +2,7 @@
 
 namespace Fit;
 
-internal sealed class FitSystem
+internal class FitSystem
 {
     private readonly IServiceCollection _service;
 
