@@ -16,7 +16,7 @@ public class Fit : IDo
         o?.Invoke(_options);
         _system = new FitSystem(_options.Services);
 
-        var caseDefiners = Util.FindAndInstantiate<ICaseDefiner>();
+        var caseDefiners = InstantiateUtil.FindAndInstantiate<ICaseDefiner>();
         foreach (var defines in caseDefiners) defines.AddCases(this);
     }
 

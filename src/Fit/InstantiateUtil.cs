@@ -1,6 +1,6 @@
 ﻿namespace Fit
 {
-    public static class Util
+    internal static class InstantiateUtil
     {
         public static IEnumerable<Type> FindNonAbstractTypes<T>() where T : class
         {
@@ -13,14 +13,14 @@
             return types;
         }
 
-        public static IEnumerable<T> FindAndInstantiate<T>() where T : class
+        internal static IEnumerable<T> FindAndInstantiate<T>() where T : class
         {
             var types = FindNonAbstractTypes<T>();
             var retVal = Instantiate<T>(types);
             return retVal;
         }
 
-        public static IEnumerable<T> Instantiate<T>(IEnumerable<Type> types) where T : class
+        internal static IEnumerable<T> Instantiate<T>(IEnumerable<Type> types) where T : class
         {
             var retVal = new List<T>();
             foreach (var type in types) 

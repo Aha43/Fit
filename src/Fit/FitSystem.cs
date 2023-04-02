@@ -52,7 +52,7 @@ internal class InstanceManager<T> where T : class
     internal void AddServices(IServiceCollection services)
     {
         _types.Clear();
-        var types = Util.FindNonAbstractTypes<T>();
+        var types = InstantiateUtil.FindNonAbstractTypes<T>();
         foreach (var t in types)
         {
             _types.Add(t);
@@ -85,7 +85,7 @@ internal class ActorManager
     internal void AddServices(IServiceCollection services)
     {
         _actorTypes.Clear();
-        var actorTypes = Util.FindNonAbstractTypes<IActor>();
+        var actorTypes = InstantiateUtil.FindNonAbstractTypes<IActor>();
         foreach (var t in actorTypes)
         {
             services.AddSingleton(t);
