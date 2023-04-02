@@ -2,5 +2,5 @@
 
 public interface IActor
 {
-    Task ActAsync(StateClaims stateClaims, ActorParameters parameters);
+    Task ActAsync(ActorContext context);
 }

@@ -60,24 +60,24 @@ public class Fit : IDo
             throw new TestNotFoundException(name);
         }
 
-        var stateClaims = new StateClaims();
+        var context = new ActorContext();
 
         var @case = _cases[name];
 
         _system.BuildSystem();
 
         var tasks = new List<Task>();
-        foreach (var setUp in _system.SetUps) tasks.Add(setUp.SetUpAsync(stateClaims));
+        foreach (var setUp in _system.SetUps) tasks.Add(setUp.SetUpAsync(context.StateClaims));
         if (tasks.Count > 0) await Task.WhenAll(tasks).ConfigureAwait(false);
 
         foreach (var actor in @case) 
         {
-            await actor.ActAsync(stateClaims).ConfigureAwait(false);
-            await Assert(stateClaims).ConfigureAwait(false);
+            await actor.ActAsync(context).ConfigureAwait(false);
+            await Assert(context.StateClaims).ConfigureAwait(false);
         }
 
         tasks.Clear();
-        foreach (var tearDown in _system.TearDowns) tasks.Add(tearDown.TearDownAsync(stateClaims));
+        foreach (var tearDown in _system.TearDowns) tasks.Add(tearDown.TearDownAsync(context.StateClaims));
         if (tasks.Count > 0) await Task.WhenAll(tasks).ConfigureAwait(false);
     }
 

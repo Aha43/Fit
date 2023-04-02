@@ -70,12 +70,13 @@ public class ActorNode : IDo
         return this;
     }
 
-    public async Task ActAsync(StateClaims stateClaims)
+    internal async Task ActAsync(ActorContext context)
     {
         var actor = _fit.GetActor(_actorName);
         if (actor != null)
         {
-            await actor.ActAsync(stateClaims, _parameters).ConfigureAwait(false);
+            context.Parameters = _parameters;
+            await actor.ActAsync(context).ConfigureAwait(false);
         }
     }
         

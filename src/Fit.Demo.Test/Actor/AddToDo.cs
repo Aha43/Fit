@@ -9,15 +9,15 @@ public class AddToDo : IActor
 
     public AddToDo(ToDosViewController toDoViewController) => _toDoViewController = toDoViewController;
 
-    public async Task ActAsync(StateClaims stateClaims, ActorParameters parameters)
+    public async Task ActAsync(ActorContext context)
     {
-        var name = parameters.Get<string>("Name");
+        var name = context.Parameters.Get<string>("Name");
 
         await _toDoViewController.LoadAsync();
         _toDoViewController.NewToDo.Name = name;
         var created = await _toDoViewController.CreateToDo();
 
-        stateClaims.ExpectedItemList<ToDo>().Add(created with { });
+        context.StateClaims.ExpectedItemList<ToDo>().Add(created with { });
     }
 
 }
