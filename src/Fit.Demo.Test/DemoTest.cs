@@ -2,7 +2,7 @@ using Fit.XUnit;
 
 namespace Fit.Demo.Test;
 
-public class DemoTest : XunitTestBase
+public class DemoTest : FitXunitTestBase
 {
     [Theory]
     [ClassData(typeof(TestSource))]
