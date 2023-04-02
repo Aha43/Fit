@@ -1,6 +1,4 @@
 ﻿using Fit.Exceptions;
-using System.Diagnostics.Metrics;
-using System.Numerics;
 
 namespace Fit;
 
@@ -68,7 +66,7 @@ public class ActorNode : IDo
 
     public ActorNode AsCase(string name) 
     {
-        _fit.AddTest(name, this);
+        _fit.AddCase(name, this);
         return this;
     }
 

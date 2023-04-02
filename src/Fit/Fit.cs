@@ -7,7 +7,7 @@ public class Fit : IDo
     private readonly FitSystem _system;
 
     private readonly List<ActorNode> _roots = new();
-    private readonly Dictionary<string, ActorNode[]> _tests = new();
+    private readonly Dictionary<string, ActorNode[]> _cases = new();
 
     private readonly FitOptions _options = new();
  
@@ -15,16 +15,19 @@ public class Fit : IDo
     {
         o?.Invoke(_options);
         _system = new FitSystem(_options.Services);
+
+        var caseDefiners = Util.FindAndInstantiate<ICaseDefiner>();
+        foreach (var defines in caseDefiners) defines.AddCases(this);
     }
 
-    internal void AddTest(string name, ActorNode end)
+    internal void AddCase(string name, ActorNode end)
     {
-        if (_tests.ContainsKey(name)) 
+        if (_cases.ContainsKey(name)) 
         {
             throw new DuplicateTestException(name);
         }
 
-        _tests[name] = end.Path();
+        _cases[name] = end.Path();
     }
 
     internal IActor GetActor(string name) 
@@ -48,16 +51,18 @@ public class Fit : IDo
         return root;
     }
 
-    public async Task RunTest(string name)
+    public IEnumerable<string> CaseNames => _cases.Keys.AsEnumerable();
+
+    public async Task RunCase(string name)
     {
-        if (!_tests.ContainsKey(name)) 
+        if (!_cases.ContainsKey(name)) 
         {
             throw new TestNotFoundException(name);
         }
 
         var stateClaims = new StateClaims();
 
-        var test = _tests[name];
+        var @case = _cases[name];
 
         _system.BuildSystem();
 
@@ -65,7 +70,7 @@ public class Fit : IDo
         foreach (var setUp in _system.SetUps) tasks.Add(setUp.SetUpAsync(stateClaims));
         if (tasks.Count > 0) await Task.WhenAll(tasks).ConfigureAwait(false);
 
-        foreach (var actor in test) 
+        foreach (var actor in @case) 
         {
             await actor.ActAsync(stateClaims).ConfigureAwait(false);
             await Assert(stateClaims).ConfigureAwait(false);

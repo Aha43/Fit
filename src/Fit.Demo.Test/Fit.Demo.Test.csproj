@@ -23,6 +23,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Fit.Demo\Fit.Demo.csproj" />
+    <ProjectReference Include="..\Fit.XUnit\Fit.XUnit.csproj" />
     <ProjectReference Include="..\Fit\Fit.csproj" />
   </ItemGroup>
 
