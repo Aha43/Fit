@@ -1,4 +1,5 @@
-﻿using Fit.Demo.Test.Actor;
+﻿using Fit.Abstraction;
+using Fit.Demo.Test.Actor;
 
 namespace Fit.Demo.Test;
 

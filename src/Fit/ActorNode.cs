@@ -1,4 +1,5 @@
-﻿using Fit.Exceptions;
+﻿using Fit.Abstraction;
+using Fit.Exceptions;
 
 namespace Fit;
 
