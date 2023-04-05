@@ -71,13 +71,20 @@ public class ActorNode : IDo
         return this;
     }
 
-    internal async Task ActAsync(ActorContext context)
+    internal async Task ActAsync(ActorContext context, CaseRunReporter? caseRunReporter)
     {
         var actor = _fit.GetActor(_actorName);
+
+        context.ActorName = _actorName;
+        context.Parameters = _parameters;
         if (actor != null)
         {
-            context.Parameters = _parameters;
             await actor.ActAsync(context).ConfigureAwait(false);
+        }
+
+        if (caseRunReporter != null)
+        {
+            caseRunReporter.ActorPerforms(context);
         }
     }
         

@@ -54,16 +54,16 @@ public class Fit : IDo
 
     public IEnumerable<string> CaseNames => _cases.Keys.AsEnumerable();
 
-    public async Task RunCase(string name)
+    public async Task RunCase(string caseName, CaseRunReporter? caseRunReporter = null)
     {
-        if (!_cases.ContainsKey(name)) 
+        if (!_cases.ContainsKey(caseName)) 
         {
-            throw new TestNotFoundException(name);
+            throw new TestNotFoundException(caseName);
         }
 
-        var context = new ActorContext();
+        var context = new ActorContext(caseName);
 
-        var @case = _cases[name];
+        var @case = _cases[caseName];
 
         _system.BuildSystem();
 
@@ -71,9 +71,11 @@ public class Fit : IDo
         foreach (var setUp in _system.SetUps) tasks.Add(setUp.SetUpAsync(context.StateClaims));
         if (tasks.Count > 0) await Task.WhenAll(tasks).ConfigureAwait(false);
 
+        caseRunReporter?.CaseStart(caseName);
+
         foreach (var actor in @case) 
         {
-            await actor.ActAsync(context).ConfigureAwait(false);
+            await actor.ActAsync(context, caseRunReporter).ConfigureAwait(false);
             await Assert(context.StateClaims).ConfigureAwait(false);
         }
 
