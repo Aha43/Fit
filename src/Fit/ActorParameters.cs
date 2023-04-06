@@ -6,6 +6,8 @@ public class ActorParameters : Dictionary<string, object>
 {
     public T Get<T>(string key) => (T)this[key];
 
+    internal ActorParameters() { }
+
     public override string ToString()
     {
         var sb = new StringBuilder();

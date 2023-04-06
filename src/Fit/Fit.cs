@@ -3,11 +3,12 @@ using Fit.Exceptions;
 
 namespace Fit;
 
-public class Fit : IDo
+public class Fit
 {
     private readonly FitSystem _system;
 
-    private readonly List<ActorNode> _roots = new();
+    private readonly Dictionary<string, ActorNode[]> _starts = new();
+
     private readonly Dictionary<string, ActorNode[]> _cases = new();
 
     private readonly FitOptions _options = new();
@@ -25,10 +26,20 @@ public class Fit : IDo
     {
         if (_cases.ContainsKey(name)) 
         {
-            throw new DuplicateTestException(name);
+            throw new DuplicateCaseException(name);
         }
 
         _cases[name] = end.Path();
+    }
+
+    internal void AddStart(string name, ActorNode end)
+    {
+        if (_starts.ContainsKey(name))
+        {
+            throw new DuplicateStartException(name);
+        }
+
+        _starts[name] = end.Path();
     }
 
     internal IActor? GetActor(string name) 
@@ -45,11 +56,23 @@ public class Fit : IDo
 
     public ActorNode Do<T>() where T : class => Do(typeof(T).Name);
 
-    public ActorNode Do(string name)
+    public ActorNode Do(string name) => new(this, name);
+
+    public ActorNode FromStart(string name)
     {
-        var root = new ActorNode(this, name);
-        _roots.Add(root);
-        return root;
+        if (_starts.TryGetValue(name, out var start))
+        {
+            ActorNode? retVal = null;
+            if (start.Length > 0)
+            {
+                foreach (var node in start) retVal = new ActorNode(this, node.ActorName, retVal);
+                return retVal!;
+                
+            }
+            throw new InternalFitException($"Start '{name}' the empty array!");
+        }
+
+        throw new StartNotFoundException(name);
     }
 
     public IEnumerable<string> CaseNames => _cases.Keys.AsEnumerable();
@@ -58,7 +81,7 @@ public class Fit : IDo
     {
         if (!_cases.ContainsKey(caseName)) 
         {
-            throw new TestNotFoundException(caseName);
+            throw new CaseNotFoundException(caseName);
         }
 
         var context = new ActorContext(caseName);
