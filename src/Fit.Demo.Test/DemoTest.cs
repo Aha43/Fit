@@ -9,5 +9,5 @@ public class DemoTest : FitXunitTestBase
 
     [Theory]
     [ClassData(typeof(TestSource))]
-    public async Task RunCase(Fit fit, string name) => await RunNamedCase(fit, name);
+    public async Task RunCases(Fit fit, string name) => await RunNamedCase(fit, name);
 }

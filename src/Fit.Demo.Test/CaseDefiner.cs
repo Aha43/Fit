@@ -11,6 +11,7 @@ public class CaseDefiner : ICaseDefiner
             .Do<AddToDo>().With("Name", "TestToDoItem2")
             .Do<AddTag>().With("Name", "Tag1")
             .Do<AddTag>().With("Name", "Tag2")
+            .Do("RemoveTag").With("Name", "Tag1")
             .AsCase("FirstCase");
     }
 

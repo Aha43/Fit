@@ -31,15 +31,15 @@ public class Fit : IDo
         _cases[name] = end.Path();
     }
 
-    internal IActor GetActor(string name) 
+    internal IActor? GetActor(string name) 
     {
         var retVal = _system.GetActorByName(name);
-        retVal ??= _system.GetActorByName($"{name}Actor");
-        if (retVal == null)
+        var name2 = $"{name}Actor";
+        retVal ??= _system.GetActorByName(name2);
+        if (retVal == null && !_options.RunMode.IgnoreMissingActors)
         {
-            throw new ActorNotFoundException($"{name} or {name}Actor");
+            throw new ActorNotFoundException(name, name2);
         }
-
         return retVal;
     }
 
@@ -75,7 +75,7 @@ public class Fit : IDo
 
         foreach (var actor in @case) 
         {
-            await actor.ActAsync(context, caseRunReporter).ConfigureAwait(false);
+            await actor.ActAsync(context, _options.RunMode, caseRunReporter).ConfigureAwait(false);
             await Assert(context.StateClaims).ConfigureAwait(false);
         }
 

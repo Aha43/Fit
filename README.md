@@ -1,12 +1,12 @@
-# Fit - Fluent integration test framework
+# Fluent Integration Test (FIT)
 
-Work very much in progress, no usable code here yet, but plan is....
+# WORK IN PROGRESS
 
-I made HIT, a framework for integration testing that I have used now in some projects... it works and gives me what I want but the approach I took defining hierarchy of tests on attributes I find bit hard to maintain, communicate to developers and easily relate to when returning to a test project using HIT after a while. Here I plan to experiment with an approach to define the hierarchy in code (c# code). See how that goes!
+FIT is a .NET integration test framework where a *case* (i.e. usecases) is defined by a sequence of *act*s that acts on the system being tested.
+Unlike unit test *act*s in a case is not independent: An *act* start acting on the system in a state caused by the *act*s that acted before it in the *case*. *Act*s are defined by the interface `IActor`.
+The implementation of the interface can be used to perform many acts both in a *case* and across *cases*.
+Implementations of the `IACtor` interface not only act on the system being testet but make claims of the system state after the act.
 
-This is framework for itegration testing where
 
-Actors (implementations of the IActor interface) act on the system being testet
-Actors make claims about the system they have acted on: what now to be true about the system
-Actors are organized to act in a sequence called a user story
 
+# WORK IN PROGRESS
