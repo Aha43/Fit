@@ -7,9 +7,9 @@ public class Fit
 {
     private readonly FitSystem _system;
 
-    private readonly Dictionary<string, ActorNode[]> _starts = new();
+    private readonly Dictionary<string, IActorNode[]> _segments = new();
 
-    private readonly Dictionary<string, ActorNode[]> _cases = new();
+    private readonly Dictionary<string, IActorNode[]> _cases = new();
 
     private readonly FitOptions _options = new();
  
@@ -32,14 +32,16 @@ public class Fit
         _cases[name] = end.Path();
     }
 
-    internal void AddStart(string name, ActorNode end)
+    
+
+    internal void AddSegment(string name, ActorNode end)
     {
-        if (_starts.ContainsKey(name))
+        if (_segments.ContainsKey(name))
         {
-            throw new DuplicateStartException(name);
+            throw new DuplicateSegmentException(name);
         }
 
-        _starts[name] = end.Path();
+        _segments[name] = end.Path();
     }
 
     internal IActor? GetActor(string name) 
@@ -54,25 +56,28 @@ public class Fit
         return retVal;
     }
 
-    public ActorNode Do<T>() where T : class => Do(typeof(T).Name);
-
-    public ActorNode Do(string name) => new(this, name);
-
-    public ActorNode FromStart(string name)
+    internal IActorNode[] GetSegment(string name)
     {
-        if (_starts.TryGetValue(name, out var start))
-        {
-            ActorNode? retVal = null;
-            if (start.Length > 0)
-            {
-                foreach (var node in start) retVal = new ActorNode(this, node.ActorName, retVal);
-                return retVal!;
-                
-            }
-            throw new InternalFitException($"Start '{name}' the empty array!");
-        }
+        if (_segments.TryGetValue(name, out var retVal)) return retVal;
+        throw new SegmentNotFoundException(name);
+    }
 
-        throw new StartNotFoundException(name);
+    public IActorNode Do<T>() where T : class => Do(typeof(T).Name);
+
+    public IActorNode Do(string name) => new ActorNode(this, name);
+
+    public IActorNode FromStart(string name)
+    {
+        var start = GetSegment(name);
+        
+        ActorNode? retVal = null;
+        if (start.Length > 0)
+        {
+            foreach (var node in start) retVal = new ActorNode(this, node.ActorName, retVal);
+            return retVal!;
+                
+        }
+        throw new InternalFitException($"Start '{name}' the empty array!");
     }
 
     public IEnumerable<string> CaseNames => _cases.Keys.AsEnumerable();
@@ -98,7 +103,7 @@ public class Fit
 
         foreach (var actor in @case) 
         {
-            await actor.ActAsync(context, _options.RunMode, caseRunReporter).ConfigureAwait(false);
+            await ((ActorNode)actor).ActAsync(context, _options.RunMode, caseRunReporter).ConfigureAwait(false);
             await Assert(context.StateClaims).ConfigureAwait(false);
         }
 

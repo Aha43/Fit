@@ -3,17 +3,17 @@ using Fit.Exceptions;
 
 namespace Fit;
 
-public class ActorNode
+internal class ActorNode : IActorNode
 {
     private readonly Fit _fit;
 
-    private readonly ActorNode? _parent;
+    private readonly IActorNode? _parent;
 
     private readonly string _actorName;
 
     private readonly ActorParameters _parameters = new();
 
-    private ActorNode? _next = null;
+    private IActorNode? _next = null;
 
     internal ActorNode(Fit fit, string actorName, ActorNode? parent = null, ActorParameters? @params = null)
     {
@@ -26,14 +26,14 @@ public class ActorNode
         }
     }
 
-    internal ActorNode[] Path()
+    internal IActorNode[] Path()
     {
-        var stack = new Stack<ActorNode>();
-        var curr = this;
+        var stack = new Stack<IActorNode>();
+        ActorNode? curr = this;
         while (curr != null)
         {
             stack.Push(curr);
-            curr = curr.Parent;
+            curr = curr._parent as ActorNode;
         }
 
         return stack.ToArray();
@@ -41,11 +41,9 @@ public class ActorNode
 
     public string ActorName => _actorName;
 
-    public ActorNode? Parent => _parent;
+    public IActorNode Do<T>() where T : class => Do(typeof(T).Name);
 
-    public ActorNode Do<T>() where T : class => Do(typeof(T).Name);
-
-    public ActorNode Do(string name)
+    public IActorNode Do(string name)
     {
         if (_next != null)
         {
@@ -55,7 +53,24 @@ public class ActorNode
         return _next;
     }
 
-    public ActorNode With<T>(string name, T value)
+    public IActorNode ContinueWith(string name)
+    {
+        if (_next != null) 
+        {
+            throw new NextActAllreadyDefinedException();
+        }
+
+        var segment = _fit.GetSegment(name);
+        var parent = this;
+        foreach (var node in segment)
+        {
+            parent = new ActorNode(_fit, node.ActorName, parent);
+        }
+
+        return parent;
+    }
+
+    public IActorNode With<T>(string name, T value)
     {
         if (value == null)
         {
@@ -69,7 +84,7 @@ public class ActorNode
 
     public void AsCase(string name) => _fit.AddCase(name, this);
 
-    public void AsStart(string name) => _fit.AddStart(name, this);
+    public void AsSegment(string name) => _fit.AddSegment(name, this);
 
     internal async Task ActAsync(ActorContext context, RunMode run, CaseRunReporter? caseRunReporter)
     {

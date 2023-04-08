@@ -7,7 +7,8 @@ public class CaseDefiner : ICaseDefiner
 {
     public void AddCases(Fit fit)
     {
-        fit.Do("Login").With("Name", "Arne").AsStart("Login");
+        fit.Do("Login").With("Name", "Arne").AsSegment("Login");
+        fit.Do("Logout").AsSegment("Logout");
 
         fit.FromStart("Login")
             .Do<AddToDo>().With("Name", "TestToDoItem1")
@@ -15,6 +16,7 @@ public class CaseDefiner : ICaseDefiner
             .Do<AddTag>().With("Name", "Tag1")
             .Do<AddTag>().With("Name", "Tag2")
             .Do("RemoveTag").With("Name", "Tag1")
+            .ContinueWith("Logout")
             .AsCase("FirstCase");
     }
 
