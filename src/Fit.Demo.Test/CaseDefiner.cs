@@ -7,17 +7,17 @@ public class CaseDefiner : ICaseDefiner
 {
     public void AddCases(IFit fit)
     {
-        fit.Do("Login").With("Name", "Arne").AsSegment("Login");
-        fit.Do("SaveWork").Do("Logout").AsSegment("Exit");
+        fit.First("Login").With("Name", "Arne").AsSegment("Login");
+        fit.First("SaveWork").Then("Logout").AsSegment("Exit");
 
-        fit.FromStart("Login")
-            .Do<AddToDo>().With("Name", "TestToDoItem1")
-            .Do<AddToDo>().With("Name", "TestToDoItem2")
-            .Do<AddTag>().With("Name", "Tag1")
-            .Do<AddTag>().With("Name", "Tag2")
-            .Do("RemoveTag").With("Name", "Tag1")
-            .ContinueWith("Exit")
-            .ContinueWith("Login")
+        fit.FirstDo("Login")
+            .Then<AddToDo>().With("Name", "TestToDoItem1")
+            .Then<AddToDo>().With("Name", "TestToDoItem2")
+            .Then<AddTag>().With("Name", "Tag1")
+            .Then<AddTag>().With("Name", "Tag2")
+            .Then("RemoveTag").With("Name", "Tag1")
+            .ThenContinueWith("Exit")
+            .ThenContinueWith("Login")
             .AsCase("FirstCase");
     }
 

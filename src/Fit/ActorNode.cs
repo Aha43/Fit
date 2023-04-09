@@ -41,9 +41,9 @@ internal class ActorNode : IActorNode
 
     public string ActorName => _actorName;
 
-    public IActorNode Do<T>() where T : class => Do(typeof(T).Name);
+    public IActorNode Then<T>() where T : class => Then(typeof(T).Name);
 
-    public IActorNode Do(string name)
+    public IActorNode Then(string name)
     {
         if (_next != null)
         {
@@ -53,7 +53,7 @@ internal class ActorNode : IActorNode
         return _next;
     }
 
-    public IActorNode ContinueWith(string name)
+    public IActorNode ThenContinueWith(string name)
     {
         if (_next != null) 
         {

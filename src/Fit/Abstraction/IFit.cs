@@ -2,9 +2,9 @@
 
 public interface IFit
 {
-    IActorNode Do<T>() where T : class;
-    IActorNode Do(string name);
-    IActorNode FromStart(string name);
+    IActorNode First<T>() where T : class;
+    IActorNode First(string name);
+    IActorNode FirstDo(string name);
     IEnumerable<string> CaseNames { get; }
     Task RunCase(string caseName, CaseRunReporter? caseRunReporter = null);
 }

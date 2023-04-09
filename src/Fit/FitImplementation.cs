@@ -13,13 +13,63 @@ internal class FitImplementation : IFit
 
     private readonly FitOptions _options = new();
  
-    public FitImplementation(Action<FitOptions>? o = null)
+    internal FitImplementation(Action<FitOptions>? o = null)
     {
         o?.Invoke(_options);
         _system = new FitSystem(_options.Services);
 
         var caseDefiners = InstantiateUtil.FindAndInstantiate<ICaseDefiner>();
         foreach (var defines in caseDefiners) defines.AddCases(this);
+    }
+
+    public IActorNode First<T>() where T : class => First(typeof(T).Name);
+
+    public IActorNode First(string name) => new ActorNode(this, name);
+
+    public IActorNode FirstDo(string name)
+    {
+        var start = GetSegment(name);
+
+        ActorNode? retVal = null;
+        if (start.Length > 0)
+        {
+            foreach (var node in start) retVal = new ActorNode(this, node.ActorName, retVal);
+            return retVal!;
+
+        }
+        throw new InternalFitException($"Start '{name}' the empty array!");
+    }
+
+    public IEnumerable<string> CaseNames => _cases.Keys.AsEnumerable();
+
+    public async Task RunCase(string caseName, CaseRunReporter? caseRunReporter = null)
+    {
+        if (!_cases.ContainsKey(caseName))
+        {
+            throw new CaseNotFoundException(caseName);
+        }
+
+        var context = new ActorContext(caseName);
+
+        var @case = _cases[caseName];
+
+        _system.BuildSystem();
+
+        var tasks = new List<Task>();
+        foreach (var setUp in _system.SetUps) tasks.Add(setUp.SetUpAsync(context.StateClaims));
+        if (tasks.Count > 0) await Task.WhenAll(tasks).ConfigureAwait(false);
+
+        caseRunReporter?.CaseStart(caseName);
+
+        foreach (var actor in @case)
+        {
+            await ((ActorNode)actor).ActAsync(context, _options.RunMode, caseRunReporter).ConfigureAwait(false);
+            await Assert(context.StateClaims).ConfigureAwait(false);
+        }
+
+        tasks.Clear();
+        foreach (var tearDown in _system.TearDowns) tasks.Add(tearDown.TearDownAsync(context.StateClaims));
+        if (tasks.Count > 0) await Task.WhenAll(tasks).ConfigureAwait(false);
     }
 
     internal void AddCase(string name, ActorNode end)
@@ -58,56 +108,6 @@ internal class FitImplementation : IFit
     {
         if (_segments.TryGetValue(name, out var retVal)) return retVal;
         throw new SegmentNotFoundException(name);
-    }
-
-    public IActorNode Do<T>() where T : class => Do(typeof(T).Name);
-
-    public IActorNode Do(string name) => new ActorNode(this, name);
-
-    public IActorNode FromStart(string name)
-    {
-        var start = GetSegment(name);
-        
-        ActorNode? retVal = null;
-        if (start.Length > 0)
-        {
-            foreach (var node in start) retVal = new ActorNode(this, node.ActorName, retVal);
-            return retVal!;
-                
-        }
-        throw new InternalFitException($"Start '{name}' the empty array!");
-    }
-
-    public IEnumerable<string> CaseNames => _cases.Keys.AsEnumerable();
-
-    public async Task RunCase(string caseName, CaseRunReporter? caseRunReporter = null)
-    {
-        if (!_cases.ContainsKey(caseName)) 
-        {
-            throw new CaseNotFoundException(caseName);
-        }
-
-        var context = new ActorContext(caseName);
-
-        var @case = _cases[caseName];
-
-        _system.BuildSystem();
-
-        var tasks = new List<Task>();
-        foreach (var setUp in _system.SetUps) tasks.Add(setUp.SetUpAsync(context.StateClaims));
-        if (tasks.Count > 0) await Task.WhenAll(tasks).ConfigureAwait(false);
-
-        caseRunReporter?.CaseStart(caseName);
-
-        foreach (var actor in @case) 
-        {
-            await ((ActorNode)actor).ActAsync(context, _options.RunMode, caseRunReporter).ConfigureAwait(false);
-            await Assert(context.StateClaims).ConfigureAwait(false);
-        }
-
-        tasks.Clear();
-        foreach (var tearDown in _system.TearDowns) tasks.Add(tearDown.TearDownAsync(context.StateClaims));
-        if (tasks.Count > 0) await Task.WhenAll(tasks).ConfigureAwait(false);
     }
 
     private async Task Assert(StateClaims stateClaims)
