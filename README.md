@@ -24,7 +24,7 @@ namespace Fit.Demo.Test;
 
 public class CaseDefiner : ICaseDefiner
 {
-    public void AddCases(Fit fit)
+    public void AddCases(IFit fit)
     {
         fit.Do<AddToDo>().With("Name", "TestToDoItem1")
             .Do<AddToDo>().With("Name", "TestToDoItem2")
@@ -38,7 +38,8 @@ public class CaseDefiner : ICaseDefiner
 ```
 As seen in the example a fluent syntax is used to define a *case*. 
 Even not knowing anything about the system being testet one learn quite a lot about it by reading this *case* code: It is a system where it is possible to add todo items and tags.
-The parameter of type `Fit` is the test system and the `Do` methods tell that a named `IActor` is to *act* on the system *with* some parameters provided with the `With` method. 
+The parameter `fit` of type `IFit` is the API to define (what we do in this example) and run cases. 
+`Do` methods tell that a named `IActor` is to *act* on the system *with* some parameters provided with the `With` method. 
 
 
 # WORK IN PROGRESS
