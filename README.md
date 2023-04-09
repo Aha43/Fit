@@ -64,7 +64,7 @@ public class AddToDo : IActor
         _toDoViewController.NewToDo.Name = name;
         var created = await _toDoViewController.CreateToDo();
 
-        context.StateClaims.ExpectedItemList<ToDo>().Add(created with { });
+        context.StateClaims.ExpectedItemList<ToDo>().Add(created with { }); 
     }
 
 }
