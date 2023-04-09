@@ -1,6 +1,6 @@
-# Fluent Integration Test (FIT) Framework
+*WORK IN PROGRESS*
 
-# WORK IN PROGRESS
+# Fluent Integration Test (FIT) Framework
 
 FIT is a .NET integration test framework where a *case* (i.e. usecases) is defined by a sequence of *act*s that acts on the system being tested when a *case* is run.
 Unlike unit tests *act*s in a case are not independent: An *act* start acting on the system in a state caused by the *act*s that acted before it in the *case*. *Act*s are defined by the interface `IActor`.
@@ -50,7 +50,4 @@ The parameter `fit` of type `IFit` is the API to define (what we do in this exam
 #### Method 1
 
 #### Method 2
- 
 
-
-# WORK IN PROGRESS
