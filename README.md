@@ -26,7 +26,7 @@ public class CaseDefiner : ICaseDefiner
 {
     public void AddCases(IFit fit)
     {
-        fit.Do<AddToDo>().With("Name", "TestToDoItem1")
+        fit.First<AddToDo>().With("Name", "TestToDoItem1")
             .Then<AddToDo>().With("Name", "TestToDoItem2")
             .Then<AddTag>().With("Name", "Tag1")
             .Then<AddTag>().With("Name", "Tag2")
