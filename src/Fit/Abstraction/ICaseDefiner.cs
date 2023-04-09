@@ -2,5 +2,5 @@
 
 public interface ICaseDefiner
 {
-    void AddCases(Fit fit);
+    void AddCases(IFit fit);
 }

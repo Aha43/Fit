@@ -1,4 +1,5 @@
-﻿using Xunit.Abstractions;
+﻿using Fit.Abstraction;
+using Xunit.Abstractions;
 
 namespace Fit.XUnit;
 
@@ -10,7 +11,7 @@ public abstract class FitXunitTestBase
 
     protected FitXunitTestBase(ITestOutputHelper? output = null) => _output = output;
 
-    protected async Task RunNamedCase(Fit fit, string name)
+    protected async Task RunNamedCase(IFit fit, string name)
     {
         await fit.RunCase(name, _reporter);
         var report = _reporter.ToString();

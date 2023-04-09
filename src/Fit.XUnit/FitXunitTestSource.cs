@@ -1,12 +1,13 @@
-﻿using System.Collections;
+﻿using Fit.Abstraction;
+using System.Collections;
 
 namespace Fit.XUnit;
 
 public class FitXunitTestSource : IEnumerable<object[]>
 {
-    private readonly Fit _fit;
+    private readonly IFit _fit;
 
-    protected FitXunitTestSource(Action<FitOptions>? o = null) => _fit = new Fit(o);
+    protected FitXunitTestSource(Action<FitOptions>? o = null) => _fit = FluentIntegrationTest.Create(o);
 
     public IEnumerator<object[]> GetEnumerator()
     {

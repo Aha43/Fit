@@ -5,7 +5,7 @@ namespace Fit;
 
 internal class ActorNode : IActorNode
 {
-    private readonly Fit _fit;
+    private readonly FitImplementation _fit;
 
     private readonly IActorNode? _parent;
 
@@ -15,7 +15,7 @@ internal class ActorNode : IActorNode
 
     private IActorNode? _next = null;
 
-    internal ActorNode(Fit fit, string actorName, ActorNode? parent = null, ActorParameters? @params = null)
+    internal ActorNode(FitImplementation fit, string actorName, ActorNode? parent = null, ActorParameters? @params = null)
     {
         _fit = fit;
         _actorName = actorName;

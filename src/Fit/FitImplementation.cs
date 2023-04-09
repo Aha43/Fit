@@ -3,7 +3,7 @@ using Fit.Exceptions;
 
 namespace Fit;
 
-public class Fit
+internal class FitImplementation : IFit
 {
     private readonly FitSystem _system;
 
@@ -13,7 +13,7 @@ public class Fit
 
     private readonly FitOptions _options = new();
  
-    public Fit(Action<FitOptions>? o = null)
+    public FitImplementation(Action<FitOptions>? o = null)
     {
         o?.Invoke(_options);
         _system = new FitSystem(_options.Services);
@@ -31,8 +31,6 @@ public class Fit
 
         _cases[name] = end.Path();
     }
-
-    
 
     internal void AddSegment(string name, ActorNode end)
     {

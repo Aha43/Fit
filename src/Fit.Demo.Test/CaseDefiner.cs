@@ -5,7 +5,7 @@ namespace Fit.Demo.Test;
 
 public class CaseDefiner : ICaseDefiner
 {
-    public void AddCases(Fit fit)
+    public void AddCases(IFit fit)
     {
         fit.Do("Login").With("Name", "Arne").AsSegment("Login");
         fit.Do("SaveWork").Do("Logout").AsSegment("Exit");
