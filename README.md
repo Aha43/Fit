@@ -10,6 +10,8 @@ After an *act* have acted the claims are checked to be true by implementations o
 Separating *asserting* from *acting* means also side effects can be caught not only that an *act* did work as expected.
 Both `IActor` and `IAssertor` gets the part of the system they need to access through dependency injection.
 
+## Examples
 
+### Defining cases
 
 # WORK IN PROGRESS
