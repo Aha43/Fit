@@ -41,7 +41,7 @@ Even not knowing anything about the system being testet one learn quite a lot ab
 The parameter `fit` of type `IFit` is the API to define (what we do in this example) cases and run cases (later examples). 
 `Do` methods tell that a named `IActor` is to *act* on the system *with* some parameters provided with the `With` method. 
 
-### Implementing Actor classes
+### Implementing IActor implementations that act and make claims
 
 ### Implementing
 
