@@ -16,7 +16,7 @@ public class CaseRunReporter
 
     public void ActorPerforms(ActorContext ctx, bool notRun, bool exists) 
     { 
-        _current?.ActorReport.Add(new ActorReport { ActorName = ctx.ActorName, NotRun = notRun, Exists = exists, Report = ctx.Parameters.ToString() });
+        _current?.ActorReport.Add(new ActorReport { ActorName = ctx.ActorName, NotRun = notRun, Exists = exists, Report = ctx.Parameters?.ToString() });
     }
 
     public CaseReport? GetCaseRaport(string name) => _caseReports.Where(e => e.CaseName == name).FirstOrDefault();
@@ -48,7 +48,7 @@ public class ActorReport
 {
     public required string? ActorName { get; init; }
     public required bool NotRun { get; init; }
-    public required string Report { get; init; }
+    public required string? Report { get; init; }
     public required bool Exists { get; init; }
     internal string ExistsStatement => !Exists ? " - Actor not implemented" : "";
     internal string RunStatement => NotRun ? " - Not run" : "";

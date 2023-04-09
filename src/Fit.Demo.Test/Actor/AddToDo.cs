@@ -12,7 +12,7 @@ public class AddToDo : IActor
 
     public async Task ActAsync(ActorContext context)
     {
-        var name = context.Parameters.Get<string>("Name");
+        var name = context.Parameters?.Get<string>("Name");
 
         await _toDoViewController.LoadAsync();
         _toDoViewController.NewToDo.Name = name;

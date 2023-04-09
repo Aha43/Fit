@@ -11,7 +11,7 @@ internal class ActorNode : IActorNode
 
     private readonly string _actorName;
 
-    private readonly ActorParameters _parameters = new();
+    private readonly ActorParameters _parameters;
 
     private IActorNode? _next = null;
 
@@ -20,9 +20,10 @@ internal class ActorNode : IActorNode
         _fit = fit;
         _actorName = actorName;
         _parent = parent;
+        _parameters = new ActorParameters(this);
         if (@params != null) 
         {
-            foreach (var param in @params) _parameters[param.Key] = param.Value;
+            foreach (var param in @params.GetDictionary()) _parameters.GetDictionary()[param.Key] = param.Value;
         }
     }
 
@@ -41,7 +42,7 @@ internal class ActorNode : IActorNode
 
     public string ActorName => _actorName;
 
-    public IActorNode Then<T>() where T : class => Then(typeof(T).Name);
+    public IActorNode Then<T>() where T : IActor => Then(typeof(T).Name);
 
     public IActorNode Then(string name)
     {
@@ -70,16 +71,16 @@ internal class ActorNode : IActorNode
         return parent;
     }
 
-    public IActorNode With<T>(string name, T value)
+    public IActorParameters With<T>(string name, T value)
     {
         if (value == null)
         {
             _parameters.Remove(name);
-            return this;
+            return _parameters;
         }
 
-        _parameters.Add(name, value);
-        return this;
+        _parameters.And(name, value);
+        return _parameters;
     }
 
     public void AsCase(string name) => _fit.AddCase(name, this);
