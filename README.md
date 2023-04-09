@@ -48,7 +48,7 @@ The parameter `fit` of type `IFit` is the API to define (what we do in this exam
 #### Method 1
 
 #### Method 2
-
+ 
 
 
 # WORK IN PROGRESS
