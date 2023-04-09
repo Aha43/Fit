@@ -43,9 +43,9 @@ The parameter `fit` of type `IFit` is the API to define (what we do in this exam
 
 ### Implementing IActor classes that act and make claims
 
-### Implementing
+### Implementing IAssertor classes that check claims made by actors
 
-### Runing cases with XUnit
+### Runing cases with the XUnit
 
 #### Method 1
 
