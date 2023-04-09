@@ -38,5 +38,7 @@ public class CaseDefiner : ICaseDefiner
 ```
 As seen in the example a fluent syntax is used to define a *case*. 
 Even not knowing anything about the system being testet one learn about it by reading this case, it is a system where users seems to be able to add todo items and tags.
+The parameter of type `Fit` is the test system and the `Do` methods tell that a certain 
+
 
 # WORK IN PROGRESS
