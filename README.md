@@ -1,4 +1,4 @@
-# Fluent Integration Test (FIT)
+# Fluent Integration Test (FIT) Framework
 
 # WORK IN PROGRESS
 
