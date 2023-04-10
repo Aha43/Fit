@@ -80,9 +80,11 @@ public class AddToDo : IActor
 
 ### Implementing IAssertor classes that check claims made by actors
 
-### Runing cases with the XUnit
+### Runing cases
 
-#### Method 1
+#### ... with the XUnit
 
-#### Method 2
+##### Method 1
+
+##### Method 2
 
