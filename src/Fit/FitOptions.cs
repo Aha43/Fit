@@ -1,9 +1,10 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Fit.Abstraction;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Fit;
 
-public class FitOptions
+internal class FitOptions : IFitOptions
 {
-    public RunMode RunMode { get; } = new();
+    public IRunMode RunMode { get; } = new RunMode();
     public IServiceCollection Services { get; } = new ServiceCollection();
 }

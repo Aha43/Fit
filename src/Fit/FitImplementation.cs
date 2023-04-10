@@ -11,9 +11,9 @@ internal class FitImplementation : IFit
 
     private readonly Dictionary<string, IActorNode[]> _cases = new();
 
-    private readonly FitOptions _options = new();
+    private readonly IFitOptions _options = new FitOptions();
  
-    internal FitImplementation(Action<FitOptions>? o = null)
+    internal FitImplementation(Action<IFitOptions>? o = null)
     {
         o?.Invoke(_options);
         _system = new FitSystem(_options.Services);

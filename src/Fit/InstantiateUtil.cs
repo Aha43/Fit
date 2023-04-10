@@ -2,7 +2,7 @@
 {
     internal static class InstantiateUtil
     {
-        public static IEnumerable<Type> FindNonAbstractTypes<T>() where T : class
+        internal static IEnumerable<Type> FindNonAbstractTypes<T>() where T : class
         {
             var tType = typeof(T);
             var types = AppDomain.CurrentDomain.GetAssemblies()
