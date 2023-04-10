@@ -85,9 +85,7 @@ public class AddToDo : IActor
 Fit does not implement any test runners but utilize unit test framework runners so to get IDE support and be used in a automatic testing scenario. The basic idea is that each *case* is run as one test. 
 The following examples show use of the XUnit framework.
 
-#### ... with the XUnit framework
-
-##### Method 1
+#### Method 1
 ```cs 
 using Fit.Abstraction.Api;
 using Fit.Demo.Business;
@@ -117,7 +115,7 @@ public class DemoTest_Method1
 
 In this example 
 
-##### Method 2
+#### Method 2
 ```cs 
 using Fit.Abstraction.Api;
 using Fit.XUnit;
