@@ -43,6 +43,10 @@ As seen in the example a fluent syntax is used to define a *case*.
 Even not knowing anything about the system being testet one learn quite a lot about it by reading this *case* code: It is a system where it is possible to add todo items and tags.
 The parameter `fit` of type `IFit` is the API to define (what we do in this example) cases and run cases (later examples). 
 `First` and `Then` methods tell that a named `IActor` is to *act* on the system *with* some parameters provided with the `With` and `And` methods. 
+Note that the methods that tell an `IActor` implementation to *act* comes in two forms:
+
+- a
+- b
 
 ### Implementing IActor classes that act and make claims
 
