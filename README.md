@@ -12,7 +12,7 @@ Both `IActor` and `IAssertor` gets the part of the system they need to access th
 
 ## Examples
 
-In next sections are code examples from demo projects found [here](https://github.com/Aha43/Fit/tree/main/src/Demo). Note that **Fit** is intended to be used from a unit test project, currently it is recommended to use XUnit framework since **Fit** provide support for that through the [Fit.Xunit](https://github.com/Aha43/Fit/tree/main/src/Fit.XUnit) project but looking at the sample code here and Fit.Xunit code using another framework similar to XUnit shold be easy. An issue #3 has been made to provide NUnit support in the future.  
+In next sections are code examples from demo projects found [here](https://github.com/Aha43/Fit/tree/main/src/Demo). Note that Fit is intended to be used from a unit test project, currently it is recommended to use XUnit framework since **Fit** provide support for that through the [Fit.Xunit](https://github.com/Aha43/Fit/tree/main/src/Fit.XUnit) project but looking at the sample code here and Fit.Xunit code using another framework similar to XUnit shold be easy. An issue #3 has been made to provide NUnit support in the future.  
 
 ### Defining cases
 
