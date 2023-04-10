@@ -88,3 +88,10 @@ public class AddToDo : IActor
 
 ##### Method 2
 
+### Advanced use
+
+#### Defining and using act segments
+
+#### Set up and tear down
+
+
