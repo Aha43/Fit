@@ -7,9 +7,11 @@ internal class ActorContext : IActorContext
 {
     public string CaseName { get; }
 
+    internal ActorContext(string caseName) => CaseName = caseName;
+
     public string? ActorName { get; internal set; }
 
-    public StateClaims StateClaims { get; } = new();
+    public IStateClaims StateClaims { get; } = new StateClaims();
 
     private IActorParameters? _parameters;
     public IActorParameters Parameters 
@@ -29,5 +31,5 @@ internal class ActorContext : IActorContext
         }
     }
 
-    internal ActorContext(string caseName) => CaseName = caseName; 
+     
 }

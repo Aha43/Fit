@@ -2,5 +2,5 @@
 
 public interface IAssertor
 {
-    Task AssertAsync(StateClaims stateClaims);
+    Task AssertAsync(IStateClaims stateClaims);
 }

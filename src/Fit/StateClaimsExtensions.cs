@@ -1,10 +1,11 @@
-﻿using Fit.Exceptions;
+﻿using Fit.Abstraction;
+using Fit.Exceptions;
 
 namespace Fit;
 
 public static class StateClaimsExtensions
 {
-    public static List<T> ExpectedItemList<T>(this StateClaims claims) where T : class
+    public static List<T> ExpectedItemList<T>(this IStateClaims claims) where T : class
     {
         var name = $"{typeof(T).Name}ExpectedList";
 

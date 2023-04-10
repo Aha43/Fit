@@ -110,7 +110,7 @@ internal class FitImplementation : IFit
         throw new SegmentNotFoundException(name);
     }
 
-    private async Task Assert(StateClaims stateClaims)
+    private async Task Assert(IStateClaims stateClaims)
     {
         var tasks = new List<Task>();
         foreach (var assertor in _system.Assertors) 

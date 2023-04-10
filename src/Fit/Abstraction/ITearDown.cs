@@ -2,5 +2,5 @@
 
 public interface ITearDown
 {
-    Task TearDownAsync(StateClaims stateClaims);
+    Task TearDownAsync(IStateClaims stateClaims);
 }

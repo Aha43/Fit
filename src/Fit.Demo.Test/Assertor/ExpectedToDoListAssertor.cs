@@ -10,7 +10,7 @@ public class ExpectedToDoListAssertor : IAssertor
 
     public ExpectedToDoListAssertor(ToDosViewController toDoViewController) => _toDoViewController = toDoViewController;
 
-    public async Task AssertAsync(StateClaims systemClaims)
+    public async Task AssertAsync(IStateClaims systemClaims)
     {
         await _toDoViewController.LoadAsync();
 

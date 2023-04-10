@@ -1,6 +1,8 @@
-﻿namespace Fit;
+﻿using Fit.Abstraction;
 
-public class StateClaims : Dictionary<string, object>
+namespace Fit;
+
+internal class StateClaims : Dictionary<string, object>, IStateClaims
 {
     public T Get<T>(string key) => (T)this[key];
 }

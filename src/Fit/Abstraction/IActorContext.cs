@@ -4,6 +4,6 @@ public interface IActorContext
 {
     string CaseName { get; }
     string? ActorName { get; }
-    StateClaims StateClaims { get; }
+    IStateClaims StateClaims { get; }
     public IActorParameters Parameters { get; }
 }

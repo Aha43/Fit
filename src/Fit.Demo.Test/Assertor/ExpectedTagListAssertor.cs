@@ -10,7 +10,7 @@ public class ExpectedTagListAssertor : IAssertor
 
     public ExpectedTagListAssertor(TagsViewController tagsViewController) => _tagsViewController = tagsViewController;
 
-    public async Task AssertAsync(StateClaims systemClaims)
+    public async Task AssertAsync(IStateClaims systemClaims)
     {
         await _tagsViewController.LoadAsync();
 
