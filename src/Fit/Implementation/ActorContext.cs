@@ -1,7 +1,7 @@
 ﻿using Fit.Abstraction;
 using Fit.Exceptions;
 
-namespace Fit;
+namespace Fit.Implementation;
 
 internal class ActorContext : IActorContext
 {
@@ -14,8 +14,8 @@ internal class ActorContext : IActorContext
     public IStateClaims StateClaims { get; } = new StateClaims();
 
     private IActorParameters? _parameters;
-    public IActorParameters Parameters 
-    {     
+    public IActorParameters Parameters
+    {
         get
         {
             if (_parameters == null)
@@ -30,5 +30,5 @@ internal class ActorContext : IActorContext
             _parameters = value;
         }
     }
-     
+
 }

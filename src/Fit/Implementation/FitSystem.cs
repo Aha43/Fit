@@ -1,7 +1,7 @@
 ﻿using Fit.Abstraction;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Fit;
+namespace Fit.Implementation;
 
 internal class FitSystem
 {
@@ -31,7 +31,7 @@ internal class FitSystem
     }
 
     internal IActor? GetActorByName(string name) => _actorManager.GetActor(name);
-    
+
     private IServiceCollection AddServices(IServiceCollection services)
     {
         _actorManager.AddServices(services);

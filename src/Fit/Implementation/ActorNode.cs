@@ -1,7 +1,7 @@
 ﻿using Fit.Abstraction;
 using Fit.Exceptions;
 
-namespace Fit;
+namespace Fit.Implementation;
 
 internal class ActorNode : IActorNode
 {
@@ -21,7 +21,7 @@ internal class ActorNode : IActorNode
         _actorName = actorName;
         _parent = parent;
         _parameters = new WriteActorParameters(this);
-        if (@params != null) 
+        if (@params != null)
         {
             foreach (var param in @params.GetDictionary()) _parameters.GetDictionary()[param.Key] = param.Value;
         }
@@ -57,7 +57,7 @@ internal class ActorNode : IActorNode
 
     public IActorNode ThenContinueWith(string name)
     {
-        if (_next != null) 
+        if (_next != null)
         {
             throw new NextActAllreadyDefinedException();
         }
@@ -74,7 +74,7 @@ internal class ActorNode : IActorNode
 
     public IWriteActorParameters With<T>(string name, T value)
     {
-        if (value  == null) throw new ArgumentNullException(nameof(value));
+        if (value == null) throw new ArgumentNullException(nameof(value));
 
         _parameters.And(name, value);
         return _parameters;

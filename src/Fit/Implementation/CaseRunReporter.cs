@@ -1,7 +1,7 @@
 ﻿using Fit.Abstraction;
 using System.Text;
 
-namespace Fit;
+namespace Fit.Implementation;
 
 internal class CaseRunReporter
 {
@@ -15,8 +15,8 @@ internal class CaseRunReporter
         _caseReports.Add(_current);
     }
 
-    internal void ActorPerforms(IActorContext ctx, bool notRun, bool exists) 
-    { 
+    internal void ActorPerforms(IActorContext ctx, bool notRun, bool exists)
+    {
         _current?.ActorReport.Add(new ActorReport { ActorName = ctx.ActorName, NotRun = notRun, Exists = exists, Report = ctx.Parameters?.ToString() });
     }
 

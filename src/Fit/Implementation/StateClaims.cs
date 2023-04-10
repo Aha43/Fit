@@ -1,6 +1,6 @@
 ﻿using Fit.Abstraction;
 
-namespace Fit;
+namespace Fit.Implementation;
 
 internal class StateClaims : Dictionary<string, object>, IStateClaims
 {

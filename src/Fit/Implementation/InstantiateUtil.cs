@@ -1,4 +1,4 @@
-﻿namespace Fit
+﻿namespace Fit.Implementation
 {
     internal static class InstantiateUtil
     {

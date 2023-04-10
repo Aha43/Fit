@@ -1,7 +1,7 @@
 ﻿using Fit.Abstraction;
 using Fit.Exceptions;
 
-namespace Fit;
+namespace Fit.Implementation;
 
 internal class FitImplementation : IFit
 {
@@ -12,7 +12,7 @@ internal class FitImplementation : IFit
     private readonly Dictionary<string, IActorNode[]> _cases = new();
 
     private readonly IFitOptions _options = new FitOptions();
- 
+
     internal FitImplementation(Action<IFitOptions>? o = null)
     {
         o?.Invoke(_options);

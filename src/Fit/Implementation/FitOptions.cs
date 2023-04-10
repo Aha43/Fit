@@ -1,7 +1,7 @@
 ﻿using Fit.Abstraction;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Fit;
+namespace Fit.Implementation;
 
 internal class FitOptions : IFitOptions
 {

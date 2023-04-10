@@ -1,7 +1,7 @@
 ﻿using Fit.Abstraction;
 using System.Text;
 
-namespace Fit;
+namespace Fit.Implementation;
 
 internal class ActorParameters : IActorParameters
 {
