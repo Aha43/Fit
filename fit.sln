@@ -13,7 +13,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fit.Demo.Test", "src\Fit.De
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fit.XUnit", "src\Fit.XUnit\Fit.XUnit.csproj", "{A255F8DF-72F1-4F27-A3E5-552B14C2BEB1}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{37ACAAD9-647C-458E-A5F4-89D26EDA965A}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Demo", "Demo", "{37ACAAD9-647C-458E-A5F4-89D26EDA965A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
