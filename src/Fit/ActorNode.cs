@@ -40,6 +40,7 @@ internal class ActorNode : IActorNode
         return stack.ToArray();
     }
 
+    #region InterfaceImpl
     public string ActorName => _actorName;
 
     public IActorNode Then<T>() where T : IActor => Then(typeof(T).Name);
@@ -96,5 +97,6 @@ internal class ActorNode : IActorNode
 
         caseRunReporter.ActorPerforms(context, run.Proto, actor != null);
     }
-        
+    #endregion
+
 }

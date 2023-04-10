@@ -22,6 +22,55 @@ internal class FitImplementation : IFit
         foreach (var defines in caseDefiners) defines.AddCases(this);
     }
 
+    internal void AddCase(string name, ActorNode end)
+    {
+        if (_cases.ContainsKey(name))
+        {
+            throw new DuplicateCaseException(name);
+        }
+
+        _cases[name] = end.Path();
+    }
+
+    internal void AddSegment(string name, ActorNode end)
+    {
+        if (_segments.ContainsKey(name))
+        {
+            throw new DuplicateSegmentException(name);
+        }
+
+        _segments[name] = end.Path();
+    }
+
+    internal IActor? GetActor(string name)
+    {
+        var retVal = _system.GetActorByName(name);
+        var name2 = $"{name}Actor";
+        retVal ??= _system.GetActorByName(name2);
+        if (retVal == null && !_options.RunMode.IgnoreMissingActors)
+        {
+            throw new ActorNotFoundException(name, name2);
+        }
+        return retVal;
+    }
+
+    internal IActorNode[] GetSegment(string name)
+    {
+        if (_segments.TryGetValue(name, out var retVal)) return retVal;
+        throw new SegmentNotFoundException(name);
+    }
+
+    private async Task Assert(IStateClaims stateClaims)
+    {
+        var tasks = new List<Task>();
+        foreach (var assertor in _system.Assertors)
+        {
+            tasks.Add(assertor.AssertAsync(stateClaims));
+        }
+        if (tasks.Count > 0) await Task.WhenAll(tasks).ConfigureAwait(false);
+    }
+
+    #region InterfaceImpl
     public IActorNode First<T>() where T : class => First(typeof(T).Name);
 
     public IActorNode First(string name) => new ActorNode(this, name);
@@ -75,53 +124,6 @@ internal class FitImplementation : IFit
 
         return caseRunReporter.ToString();
     }
-
-    internal void AddCase(string name, ActorNode end)
-    {
-        if (_cases.ContainsKey(name)) 
-        {
-            throw new DuplicateCaseException(name);
-        }
-
-        _cases[name] = end.Path();
-    }
-
-    internal void AddSegment(string name, ActorNode end)
-    {
-        if (_segments.ContainsKey(name))
-        {
-            throw new DuplicateSegmentException(name);
-        }
-
-        _segments[name] = end.Path();
-    }
-
-    internal IActor? GetActor(string name) 
-    {
-        var retVal = _system.GetActorByName(name);
-        var name2 = $"{name}Actor";
-        retVal ??= _system.GetActorByName(name2);
-        if (retVal == null && !_options.RunMode.IgnoreMissingActors)
-        {
-            throw new ActorNotFoundException(name, name2);
-        }
-        return retVal;
-    }
-
-    internal IActorNode[] GetSegment(string name)
-    {
-        if (_segments.TryGetValue(name, out var retVal)) return retVal;
-        throw new SegmentNotFoundException(name);
-    }
-
-    private async Task Assert(IStateClaims stateClaims)
-    {
-        var tasks = new List<Task>();
-        foreach (var assertor in _system.Assertors) 
-        {
-            tasks.Add(assertor.AssertAsync(stateClaims));
-        }
-        if (tasks.Count > 0) await Task.WhenAll(tasks).ConfigureAwait(false);
-    }
+    #endregion
 
 }

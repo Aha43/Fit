@@ -30,6 +30,5 @@ internal class ActorContext : IActorContext
             _parameters = value;
         }
     }
-
      
 }
