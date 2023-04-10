@@ -1,4 +1,4 @@
-﻿using Fit.Abstraction;
+﻿using Fit.Abstraction.Api;
 using Xunit.Abstractions;
 
 namespace Fit.XUnit;

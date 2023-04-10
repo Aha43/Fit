@@ -1,4 +1,4 @@
-﻿using Fit.Abstraction;
+﻿using Fit.Abstraction.Client;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Fit.Implementation;

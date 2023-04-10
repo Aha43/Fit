@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 
-namespace Fit.Abstraction;
+namespace Fit.Abstraction.Api;
 
 public interface IFitOptions
 {

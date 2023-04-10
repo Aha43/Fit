@@ -1,4 +1,4 @@
-﻿namespace Fit.Abstraction;
+﻿namespace Fit.Abstraction.Api;
 
 public interface IRunMode
 {

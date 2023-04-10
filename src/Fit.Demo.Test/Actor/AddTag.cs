@@ -1,4 +1,5 @@
-﻿using Fit.Abstraction;
+﻿using Fit.Abstraction.Api;
+using Fit.Abstraction.Client;
 using Fit.Demo.Business;
 using Fit.Demo.Domain;
 using Fit.ExtensionMethods;

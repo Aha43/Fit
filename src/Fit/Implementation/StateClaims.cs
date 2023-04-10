@@ -1,4 +1,4 @@
-﻿using Fit.Abstraction;
+﻿using Fit.Abstraction.Api;
 
 namespace Fit.Implementation;
 

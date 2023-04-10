@@ -1,4 +1,6 @@
-﻿namespace Fit.Abstraction;
+﻿using Fit.Abstraction.Client;
+
+namespace Fit.Abstraction.Api;
 
 public interface IWriteActorParameters
 {
