@@ -1,6 +1,7 @@
 ﻿using Fit.Abstraction;
 using Fit.Demo.Business;
 using Fit.Demo.Domain;
+using Fit.ExtensionMethods;
 
 namespace Fit.Demo.Test.Assertor;
 

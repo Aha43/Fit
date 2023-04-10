@@ -1,7 +1,7 @@
 ﻿using Fit.Abstraction;
 using Fit.Exceptions;
 
-namespace Fit;
+namespace Fit.ExtensionMethods;
 
 public static class StateClaimsExtensions
 {
