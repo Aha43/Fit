@@ -115,28 +115,18 @@ public class DemoTest_Method1
 ##### Method 2
 ```cs 
 using Fit.Abstraction.Api;
-using Fit.Demo.Business;
-using Fit.Demo.Infrastructure.InMemory;
+using Fit.XUnit;
+using Xunit.Abstractions;
 
 namespace Fit.Demo.Test;
 
-public class DemoTest_Method1
+public class DemoTest_Method2 : FitXunitTestBase
 {
-    private readonly IFit _fit = FluentIntegrationTest.Create(o =>
-    {
-        o.RunMode.Proto = false;
-        o.RunMode.IgnoreMissingActors = true;
-        o.Services.AddFitDemoInMemoryInfrastructure()
-            .AddFitDemoBusiness();
-    });
+    public DemoTest_Method2(ITestOutputHelper testReporter) : base(testReporter) { }
 
     [Theory]
-    [InlineData("ToDoAndTag")]
-    public async Task Test(string caseName)
-    {
-        await _fit.RunCase(caseName);
-    }
-
+    [ClassData(typeof(TestSource))]
+    public async Task RunCases(IFit fit, string name) => await RunNamedCase(fit, name);
 }
 ```
 
