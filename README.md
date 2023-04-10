@@ -45,8 +45,8 @@ The parameter `fit` of type `IFit` is the API to define (what we do in this exam
 `First` and `Then` methods tell that a named `IActor` is to *act* on the system *with* some parameters provided with the `With` and `And` methods. 
 Note that the methods that tell an `IActor` implementation to *act* comes in two forms:
 
-- a
-- b
+- Identifying the actor with a generic type argument as in `First<AddToDo>` and `Then<AddTag>`. Using these methods the `IActor` implementation **must** exist.
+- Identifying the actor pasing the class name as a parameter as in `First("AddToDo")` and `Then("AddTag")`. Using these methods the `IActor` implementation may not yet exist if run in a *IgnoreMissingActors* mode (shown in examples below). This is usefull in a test driven implementation strategy.
 
 ### Implementing IActor classes that act and make claims
 
