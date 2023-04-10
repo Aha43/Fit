@@ -3,7 +3,7 @@ using Fit.Exceptions;
 
 namespace Fit;
 
-public sealed class ActorContext
+internal class ActorContext : IActorContext
 {
     public string CaseName { get; }
 

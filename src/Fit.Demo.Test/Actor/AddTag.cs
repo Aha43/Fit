@@ -10,7 +10,7 @@ public class AddTag : IActor
 
     public AddTag(TagsViewController toDoViewController) => _tagsViewController = toDoViewController;
 
-    public async Task ActAsync(ActorContext context)
+    public async Task ActAsync(IActorContext context)
     {
         var name = context.Parameters.Get<string>("Name");
 

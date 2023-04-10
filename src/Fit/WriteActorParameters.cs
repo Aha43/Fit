@@ -1,5 +1,4 @@
 ﻿using Fit.Abstraction;
-using System.Text;
 
 namespace Fit;
 

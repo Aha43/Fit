@@ -2,5 +2,5 @@
 
 public interface IActor
 {
-    Task ActAsync(ActorContext context);
+    Task ActAsync(IActorContext context);
 }
