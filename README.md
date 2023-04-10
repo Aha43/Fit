@@ -46,7 +46,7 @@ The parameter `fit` of type `IFit` is the API to define (what we do in this exam
 Note that the methods that tell an `IActor` implementation to *act* comes in two forms:
 
 - Identifying the actor with a generic type argument as in `First<AddToDo>` and `Then<AddTag>`. Using these methods the `IActor` implementation **must** exist.
-- Identifying the actor pasing the class name as a parameter as in `First("AddToDo")` and `Then("AddTag")`. Using these methods the `IActor` implementation may not yet exist if run in a *IgnoreMissingActors* mode (shown in examples below). This is usefull in a test driven implementation strategy. *Tip:* If using this strategy consider to first use this form and then when actors get implemented switch to the generic parameter form to make it easy to read from code what has been implemented and what is planned.
+- Identifying the actor pasing the class name as a parameter as in `First("AddToDo")` and `Then("AddTag")`. Using these methods the `IActor` implementation may not yet exist if run in a *IgnoreMissingActors* mode (shown in examples below). This is usefull in a *test driven implementation strategy*. *Tip:* If using this strategy consider to first use this form and then when actors get implemented switch to the generic parameter form to make it easy to read from code what has been implemented and what is planned.
 
 ### Implementing IActor classes that act and make claims
 
