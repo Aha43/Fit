@@ -82,7 +82,7 @@ public class AddToDo : IActor
 
 ### Runing cases
 
-#### ... with the XUnit
+#### ... with the XUnit framework
 
 ##### Method 1
 
