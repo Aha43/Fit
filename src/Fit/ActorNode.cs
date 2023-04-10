@@ -83,7 +83,7 @@ internal class ActorNode : IActorNode
 
     public void AsSegment(string name) => _fit.AddSegment(name, this);
 
-    internal async Task ActAsync(ActorContext context, RunMode run, CaseRunReporter? caseRunReporter)
+    internal async Task ActAsync(ActorContext context, RunMode run, CaseRunReporter caseRunReporter)
     {
         var actor = _fit.GetActor(_actorName);
 
@@ -94,7 +94,7 @@ internal class ActorNode : IActorNode
             await actor.ActAsync(context).ConfigureAwait(false);
         }
 
-        caseRunReporter?.ActorPerforms(context, run.Proto, actor != null);
+        caseRunReporter.ActorPerforms(context, run.Proto, actor != null);
     }
         
 }

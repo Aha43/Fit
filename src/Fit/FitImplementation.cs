@@ -42,7 +42,7 @@ internal class FitImplementation : IFit
 
     public IEnumerable<string> CaseNames => _cases.Keys.AsEnumerable();
 
-    public async Task RunCase(string caseName, CaseRunReporter? caseRunReporter = null)
+    public async Task<string> RunCase(string caseName)
     {
         if (!_cases.ContainsKey(caseName))
         {
@@ -59,7 +59,9 @@ internal class FitImplementation : IFit
         foreach (var setUp in _system.SetUps) tasks.Add(setUp.SetUpAsync(context.StateClaims));
         if (tasks.Count > 0) await Task.WhenAll(tasks).ConfigureAwait(false);
 
-        caseRunReporter?.CaseStart(caseName);
+        var caseRunReporter = new CaseRunReporter();
+
+        caseRunReporter.CaseStart(caseName);
 
         foreach (var actor in @case)
         {
@@ -70,6 +72,8 @@ internal class FitImplementation : IFit
         tasks.Clear();
         foreach (var tearDown in _system.TearDowns) tasks.Add(tearDown.TearDownAsync(context.StateClaims));
         if (tasks.Count > 0) await Task.WhenAll(tasks).ConfigureAwait(false);
+
+        return caseRunReporter.ToString();
     }
 
     internal void AddCase(string name, ActorNode end)
