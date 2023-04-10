@@ -12,26 +12,29 @@ Both `IActor` and `IAssertor` gets the part of the system they need to access th
 
 ## Examples
 
+In next sections are code examples from demo projects found 
+
 ### Defining cases
 
 *Cases* can be defined by a class that implements the interface `ICaseDefiner`:
 
 ```cs
-using Fit.Abstraction;
+using Fit.Abstraction.Api;
+using Fit.Abstraction.Client;
 using Fit.Demo.Test.Actor;
 
 namespace Fit.Demo.Test;
 
-public class CaseDefiner : ICaseDefiner
+public class ToDoAndTagCase : ICaseDefiner
 {
     public void AddCases(IFit fit)
     {
-        fit.First<AddToDo>().With("Name", "TestToDoItem1")
-            .Then<AddToDo>().With("Name", "TestToDoItem2").And("State", "Next")
+        fit.First<AddToDo>().With("Name", "TestToDoItem1").And("State", "Next")
+            .Then<AddToDo>().With("Name", "TestToDoItem2").And("State", "SAP")
             .Then<AddTag>().With("Name", "Tag1")
             .Then<AddTag>().With("Name", "Tag2")
             .Then("RemoveTag").With("Name", "Tag1")
-            .AsCase("FirstCase");
+            .AsCase("ToDoAndTag");
     }
 
 }
