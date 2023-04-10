@@ -12,6 +12,8 @@ Both `IActor` and `IAssertor` gets the part of the system they need to access th
 
 ## Examples
 
+In next sections are code examples from demo projects found 
+
 ### Defining cases
 
 *Cases* can be defined by a class that implements the interface `ICaseDefiner`:
