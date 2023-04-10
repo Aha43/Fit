@@ -1,4 +1,5 @@
 ﻿using Fit.Abstraction;
+using Fit.Exceptions;
 
 namespace Fit;
 
@@ -10,7 +11,23 @@ public sealed class ActorContext
 
     public StateClaims StateClaims { get; } = new();
 
-    public IActorParameters? Parameters { get; internal set; }
+    private IActorParameters? _parameters;
+    public IActorParameters Parameters 
+    {     
+        get
+        {
+            if (_parameters == null)
+            {
+                throw new InternalFitException("Parameters not set in ActorContext");
+            }
+
+            return _parameters;
+        }
+        internal set
+        {
+            _parameters = value;
+        }
+    }
 
     internal ActorContext(string caseName) => CaseName = caseName; 
 }

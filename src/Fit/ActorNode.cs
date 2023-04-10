@@ -11,16 +11,16 @@ internal class ActorNode : IActorNode
 
     private readonly string _actorName;
 
-    private readonly ActorParameters _parameters;
+    private readonly WriteActorParameters _parameters;
 
     private IActorNode? _next = null;
 
-    internal ActorNode(FitImplementation fit, string actorName, ActorNode? parent = null, ActorParameters? @params = null)
+    internal ActorNode(FitImplementation fit, string actorName, ActorNode? parent = null, WriteActorParameters? @params = null)
     {
         _fit = fit;
         _actorName = actorName;
         _parent = parent;
-        _parameters = new ActorParameters(this);
+        _parameters = new WriteActorParameters(this);
         if (@params != null) 
         {
             foreach (var param in @params.GetDictionary()) _parameters.GetDictionary()[param.Key] = param.Value;
@@ -71,13 +71,9 @@ internal class ActorNode : IActorNode
         return parent;
     }
 
-    public IActorParameters With<T>(string name, T value)
+    public IWriteActorParameters With<T>(string name, T value)
     {
-        if (value == null)
-        {
-            _parameters.Remove(name);
-            return _parameters;
-        }
+        if (value  == null) throw new ArgumentNullException(nameof(value));
 
         _parameters.And(name, value);
         return _parameters;
@@ -92,7 +88,7 @@ internal class ActorNode : IActorNode
         var actor = _fit.GetActor(_actorName);
 
         context.ActorName = _actorName;
-        context.Parameters = _parameters;
+        context.Parameters = new ActorParameters(_parameters.GetDictionary());
         if (actor != null && !run.Proto)
         {
             await actor.ActAsync(context).ConfigureAwait(false);
