@@ -32,7 +32,7 @@ public class ToDoAndTagCase : ICaseDefiner
             .Then<AddTag>().With("Name", "Tag1")
             .Then<AddTag>().With("Name", "Tag2")
             .Then("RemoveTag").With("Name", "Tag1")
-            .AsCase("FirstCase");
+            .AsCase("ToDoAndTag");
     }
 
 }
