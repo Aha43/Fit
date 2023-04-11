@@ -118,6 +118,10 @@ In this example an instance of the Fit api is created using the static method `F
 - `Boolean` property `RunMode.IgnoreMissingActors` that if is true will not throw an exception if an actor is named but implementation is not found.
 - `IServiceCollection` property `Services` to register the services that makes up the system being testet. 
 
+A single test method is then defined to run given cases, the idea is to use XUnit's `Theory` and `InlineData` attributes to list all the cases to run.
+
+##### Pro / cons
+
 #### Method 2
 ```cs 
 using Fit.Abstraction.Api;
