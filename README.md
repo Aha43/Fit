@@ -113,7 +113,10 @@ public class DemoTest_Method1
 }
 ```
 
-In this example 
+In this example an instance of the Fit api is created using the static method `FluentIntegrationTest.Create` that accept a function that receives an option object to set:
+- `Boolean` property `RunMode.Proto` that if true will not actual perform any acts. Default value is false.
+- `Boolean` property `RunMode.IgnoreMissingActors` that if is true will not throw an exception if an actor is named but implementation is not found.
+- `IServiceCollection` property `Services` to register the services that makes up the system being testet. 
 
 #### Method 2
 ```cs 
