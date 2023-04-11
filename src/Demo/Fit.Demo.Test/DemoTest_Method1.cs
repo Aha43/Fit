@@ -8,7 +8,7 @@ public class DemoTest_Method1
 {
     private readonly IFit _fit = FluentIntegrationTest.Create(o =>
     {
-        o.RunMode.Proto = true;
+        o.RunMode.Proto = false;
         o.RunMode.IgnoreMissingActors = true;
         o.Services.AddFitDemoInMemoryInfrastructure()
             .AddFitDemoBusiness();

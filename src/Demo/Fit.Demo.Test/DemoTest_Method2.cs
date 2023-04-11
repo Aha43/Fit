@@ -4,9 +4,9 @@ using Xunit.Abstractions;
 
 namespace Fit.Demo.Test;
 
-public class DemoTest : FitXunitTestBase
+public class DemoTest_Method2 : FitXunitTestBase
 {
-    public DemoTest(ITestOutputHelper testReporter) : base(testReporter) { }
+    public DemoTest_Method2(ITestOutputHelper testReporter) : base(testReporter) { }
 
     [Theory]
     [ClassData(typeof(TestSource))]
