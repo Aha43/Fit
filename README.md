@@ -122,6 +122,13 @@ A single test method is then defined to run given cases, the idea is to use XUni
 
 ##### Pro / cons
 
+**Pro**
+- In VS Studio each case get a node in the test explorer view's tree and can be run separetely.
+- Each case will have an inline attribute and this will provide a nice list in code of all the cases. However maintining this stack of inlinedata attributes can be challenging, see the con list.
+
+**Con**
+- Maintaining 
+
 #### Method 2
 ```cs 
 using Fit.Abstraction.Api;
