@@ -3,11 +3,11 @@ using System.Collections;
 
 namespace Fit.XUnit;
 
-public class FitXunitTestSource : IEnumerable<object[]>
+public abstract class FitXunitTestSource : IEnumerable<object[]>
 {
     private readonly IFit _fit;
 
-    protected FitXunitTestSource(Action<IFitOptions>? o = null) => _fit = FluentIntegrationTest.Create(o);
+    protected FitXunitTestSource(Action<IFitOptions>? o) => _fit = FluentIntegrationTest.Create(o);
 
     public IEnumerator<object[]> GetEnumerator()
     {

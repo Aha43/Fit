@@ -90,7 +90,15 @@ internal class FitImplementation : IFit
         throw new InternalFitException($"Start '{name}' the empty array!");
     }
 
-    public IEnumerable<string> CaseNames => _cases.Keys.AsEnumerable();
+    public IEnumerable<string> CaseNames
+    {
+        get
+        {
+            var retVal = _cases.Keys.AsEnumerable();
+            return retVal;
+        }
+    }
+    
 
     public async Task<string> RunCase(string caseName)
     {
